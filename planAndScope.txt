@@ -1,3 +1,18 @@
 Big user stories for entire release:
 
+>As a prof/student, I want to have a customizable profile
+	>Priority: High | Cost: 3 days | Ability to sign up for an account
+	>Priority: High | Cost: 3 days | Ability to fill profile with basic information such as education, research interests/experience
+	>Priority: Medium | Cost: 2 days | Ability to upload or present papers
+	>Priority: Low | Cost: 1 days | Ability to set a profile picture
+	>Priority: Low | Cost: 3 days | Ability to move components of profile around
+>As a prof/student, I want to search and find the profiles that I'm interested in 
+>As a prof/student, I want to have recommendations of profiles based on things like the profiles that I've already viewed or am interested in
+>As a prof/student, I want to message other users and reference things on their profile easily
+>As a prof/student, I want to see quick feeds of activity from profiles
+>As a prof/student, I want to group profiles together or create groups of profiles for discussions and feeds
+>As a prof/student, I want to make some information visible/available or some information not available to others
+>As a conference organizer, I want to be able to set up a page with information about the conference and advertise it to as many students as possible to get as many quality papers as possible
+
 Detailed stories for iter1: (back-end)
+
