@@ -1,8 +1,31 @@
-Version Control:
-Git and Github
+Like any other web application, there will be mainly two major components of this project. 
+One is the backend and another is the front-end. 
 
-Build Tool:
-?
+Technologies to be used to implement backend:
+Our application will follow the SOA i.e. Service Oriented Architecture which is the current state-of-the-art technology and it
+fits best with our interest as we will have a lot of services to be implemented.
+We will implement the services following the REST API protocol. It stands for Representational State Transfer and its HTTP 
+protocol. Currently it is the best approach through which software can talk to each other. As we want the applications to be
+implemented in a way where other platforms (like mobile) can use our services, we have to use REST API. Now, in .NET stack, there
+are basically two ways to implement REST API. One is WCF (Windows Communication Foundation) and the other one is ASP.NET Web API 2.
+Among these two Microsoft already declared that they will not continue with the WCF rather ASP.NET Web API and latter one is 
+created solely based on the HTTP protocol. So for implementing back-end REST API services, we will use ASP.NET Web API 2.
+Another major reasons include – it has a good support for websocket programming that we need to implement our messaging system,
+it has great support for integrating ORM (Object Relational Mapping) tool like Entity Framework or nHibernate. We definitely need a
+strong ORM tools that can ease our work while working with the database. There are lots of entity frameworks available on .NET
+stack, but we will definitely go with the Entity Framework as it has some automation tool i.e. it generates the code automatically
+for us. For build and deployment tool we will use Octopus Deploy, an automated software development and release management server
+and it is designed to simplify deployment of ASP.NET applications, Windows Services and databases.
 
-Framework:
-ASP.net?
+Technologies to be used to implement Front-end:
+As our project will be a web application, there will be a front-end part though which users will interact. Now to implement this
+part, the best suited technology we found is ASP.NET MVC. We have also considered other choices like AngularJS but we preferred to
+stick with ASP.NET MVC as it resides on the .NET stack and it communicates with services pretty well. It provides great razor 
+syntax using which we can bind the data coming from the services with HTML very effectively. It also also great support for custom
+javascript integration. As it follows the MVC pattern this will help us to organize and scale our re-usable code.
+
+IDE: Visual Studio 2015 (no other choice)
+
+Dependency Management: NuGet
+
+Version Control: Git and GitHub
