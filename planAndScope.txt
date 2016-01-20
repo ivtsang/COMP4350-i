@@ -18,7 +18,21 @@ As a prof/student, I want to have a customizable profile
 	
 As a prof/student, I want to search and find the profiles that I'm interested in 
 As a prof/student, I want to have recommendations of profiles based on things like the profiles that I've already viewed or am interested in
-
+	Save a history of profiles that I've previously viewed.
+	Priority: Low | Cost: 1 Day
+	
+	Find profiles from the same location as ones that I've viewed or "favorited"
+	Priority: Medium | Cost: 4 Hours
+	
+	Find profiles in a similiar field as ones that I've viewed or "favorited"
+	Priority: Medium | Cost: 4 Hours
+	
+	Indicate why the recommendation was recommended, by linking it to a profile that I've viewed or "favorited"
+	Priority: Low | Cost: 8 Hours
+	
+	Prioritize the recommended profiles which are related to profiles that I've "favorited" over ones I've viewed
+	Priority: Low | Cost: 1 Day
+	
 As a prof/student, I want to message other users and reference things on their profile easily
 	Private Messaging
 	Send and receive private messages to and from other prof/students.
