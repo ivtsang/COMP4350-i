@@ -1,0 +1,15 @@
+[insert name here] Detailed Stories
+
+As a user (prof/student), I want to message other users and reference things on their profile easily:
+
+Private Messaging
+Send and receive private messages to and from other prof/students.
+Priority: Medium | Cost: 3 Days
+
+Attachments
+Be able to attach files to private messages.
+Priority: Medium | Cost: 2 Days
+
+Group Chat
+Have a space to hold a group discussion.
+Priority: Medium | Cost: 4 Days
