@@ -62,6 +62,12 @@ As a prof/student, I want to group profiles together or create groups of profile
 As a prof/student, I want to make some information visible/available or some information not available to others
 As a conference organizer, I want to be able to set up a page with information about the conference and advertise it to as many students as possible to get as many quality papers as possible
 
+	Upload a picture to the page to make it more appealing
+	Priority: Medium | Cost: 1 Day
+	
+	Add text to include details about conference
+	Priority: High | Cost: 1 Day
+
 Detailed stories for iter1: (back-end)
 Assuming everyone puts in 2 days worth of time over 2 weeks,
 6 x 2 = 12 days available
