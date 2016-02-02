@@ -26,5 +26,12 @@ namespace ConnectR.Controllers
 
             return View();
         }
+
+        public ActionResult Conference()
+        {
+            ViewBag.Message = "Upcoming conferences";
+
+            return RedirectToAction("Index", "Conference");
+        }
     }
 }

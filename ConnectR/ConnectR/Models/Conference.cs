@@ -18,6 +18,9 @@ namespace ConnectR.Models
         public int ProfileId { get; set; }
         public string Content { get; set; }
         public byte[] Image { get; set; }
+        public string Title { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
+        public string Location { get; set; }
     
         public virtual Profile Profile { get; set; }
     }

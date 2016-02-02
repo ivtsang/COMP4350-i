@@ -4,6 +4,9 @@
     <EntitySetMapping Name="Conferences">
       <EntityTypeMapping TypeName="Model.Conference">
         <MappingFragment StoreEntitySet="Conference">
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="ConferenceId" ColumnName="ConferenceId" />
           <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
           <ScalarProperty Name="Content" ColumnName="Content" />

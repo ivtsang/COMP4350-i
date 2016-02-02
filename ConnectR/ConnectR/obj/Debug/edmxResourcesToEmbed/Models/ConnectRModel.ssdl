@@ -4,16 +4,19 @@
     <Key>
       <PropertyRef Name="ConferenceId" />
     </Key>
-    <Property Name="ConferenceId" Type="int" Nullable="false" />
+    <Property Name="ConferenceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProfileId" Type="int" Nullable="false" />
     <Property Name="Content" Type="nvarchar(max)" />
     <Property Name="Image" Type="binary" MaxLength="2048" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="Location" Type="nvarchar" MaxLength="150" />
   </EntityType>
   <EntityType Name="Profile">
     <Key>
       <PropertyRef Name="ProfileId" />
     </Key>
-    <Property Name="ProfileId" Type="int" Nullable="false" />
+    <Property Name="ProfileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
     <Property Name="LastName" Type="nvarchar" MaxLength="50" />
