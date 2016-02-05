@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ConnectR.Models.Conversation>
+@{
+    ViewBag.Title = "CONVERSATIONS!";
+}
+
+<h2>Conversations!</h2>
+
+    @foreach (var item in Model)
+    {
+        <table class="table">
+            @Html.DisplayFor(model => item)
+        </table>
+    }
