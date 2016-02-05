@@ -15,7 +15,6 @@ C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR.Tests\bin\Debug\Co
 C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR.Tests\bin\Debug\ConnectR.Tests.dll
 C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR.Tests\bin\Debug\ConnectR.Tests.pdb
 C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR.Tests\bin\Debug\ConnectR.dll
-C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
 C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
 C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR.Tests\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR.Tests\bin\Debug\System.Web.Helpers.dll
