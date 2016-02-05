@@ -209,26 +209,27 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConferenceController.cs" />
-    <Compile Include="Controllers\ConversationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Data_Initializer\TestDbInit.cs" />
+    <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\MyAuthorizeAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Conference.cs">
+      <DependentUpon>ConnectRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConnectRModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConnectRModel.Context.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ConnectRModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ConnectRModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Conversation.cs">
-      <DependentUpon>ConnectRModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Conference.cs">
-      <DependentUpon>ConnectRModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ConnectRContext.cs" />
     <Compile Include="Models\ConnectRModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -236,13 +237,7 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Message.cs">
-      <DependentUpon>ConnectRModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Profile.cs">
-      <DependentUpon>ConnectRModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\User.cs">
       <DependentUpon>ConnectRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -255,6 +250,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\ConnectRModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ConnectRModel.edmx</DependentUpon>
+      <LastGenOutput>ConnectRModel.Context.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\ConnectRModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ConnectRModel.edmx</DependentUpon>
@@ -300,6 +300,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -313,12 +314,12 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Home\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Home\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Home\Manage\Index.cshtml" />
-    <Content Include="Views\Home\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Home\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Home\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Conference\Create.cshtml" />
@@ -327,9 +328,12 @@
     <Content Include="Views\Conference\Edit.cshtml" />
     <Content Include="Views\Conference\Index.cshtml" />
     <Content Include="Views\Home\Conference.cshtml" />
-    <Content Include="Views\Conversation\Index.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\Conversation.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\Message.cshtml" />
+    <Content Include="Views\Profiles\Create.cshtml" />
+    <Content Include="Views\Profiles\Delete.cshtml" />
+    <Content Include="Views\Profiles\Details.cshtml" />
+    <Content Include="Views\Profiles\Edit.cshtml" />
+    <Content Include="Views\Profiles\Index.cshtml" />
+    <Content Include="Views\Home\Profiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
