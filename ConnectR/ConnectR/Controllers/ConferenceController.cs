@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using ConnectR.Models;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace ConnectR.Controllers
 {
@@ -58,7 +59,7 @@ namespace ConnectR.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ConferenceId,ProfileId,Content,Image,Title,Date,Location")] Conference conference)
+        public ActionResult Create([Bind(Exclude = "Image")] Conference conference)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +85,6 @@ namespace ConnectR.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ProfileId = new SelectList(db.Profiles, "ProfileId", "UserId", conference.ProfileId);
             return View(conference);
         }
 
@@ -94,7 +94,7 @@ namespace ConnectR.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ConferenceId,ProfileId,Content,Image")] Conference conference)
+        public ActionResult Edit([Bind(Include = "ConferenceId,ProfileId,Content,Image,Title,Date,Location")] Conference conference)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +102,6 @@ namespace ConnectR.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProfileId = new SelectList(db.Profiles, "ProfileId", "UserId", conference.ProfileId);
             return View(conference);
         }
 
@@ -141,6 +140,17 @@ namespace ConnectR.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public IEnumerable<Conference> SearchConference(Conference conference)
+        {
+            IEnumerable<Conference> result = from c in db.Conferences
+                                where (conference.Title != null && c.Title == conference.Title)
+                                where (conference.Location != null && c.Location == conference.Location)
+                                where (conference.Date != null && c.Date == conference.Date)
+                                select c;
+
+            return result;
         }
     }
 }
