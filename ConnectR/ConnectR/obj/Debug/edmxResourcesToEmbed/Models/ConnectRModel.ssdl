@@ -12,6 +12,22 @@
     <Property Name="Date" Type="datetime" />
     <Property Name="Location" Type="nvarchar" MaxLength="150" />
   </EntityType>
+  <EntityType Name="Conversation">
+    <Key>
+      <PropertyRef Name="conv_id" />
+    </Key>
+    <Property Name="conv_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="msg_id" />
+    </Key>
+    <Property Name="msg_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="conv_id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="msg_date" Type="datetime" Nullable="false" />
+    <Property Name="msg_txt" Type="nvarchar(max)" />
+  </EntityType>
   <EntityType Name="Profile">
     <Key>
       <PropertyRef Name="ProfileId" />
@@ -27,6 +43,22 @@
     <Property Name="Degree" Type="nvarchar" MaxLength="50" />
     <Property Name="Image" Type="binary" MaxLength="2048" />
   </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'aspnet-ConnectR-20160201042538.dbo.UserConversation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="UserConversation">
+    <Key>
+      <PropertyRef Name="user_id" />
+      <PropertyRef Name="conv_id" />
+    </Key>
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="conv_id" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="FK_Conference_Profile">
     <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
     <End Role="Conference" Type="Self.Conference" Multiplicity="*" />
@@ -39,12 +71,80 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Conv_Msg">
+    <End Role="Conversation" Type="Self.Conversation" Multiplicity="1" />
+    <End Role="Message" Type="Self.Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Conversation">
+        <PropertyRef Name="conv_id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="conv_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CONV_USER">
+    <End Role="Conversation" Type="Self.Conversation" Multiplicity="1" />
+    <End Role="UserConversation" Type="Self.UserConversation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Conversation">
+        <PropertyRef Name="conv_id" />
+      </Principal>
+      <Dependent Role="UserConversation">
+        <PropertyRef Name="conv_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USER_CONV">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="UserConversation" Type="Self.UserConversation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="UserConversation">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Msg">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Message" Type="Self.Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="ModelStoreContainer">
     <EntitySet Name="Conference" EntityType="Self.Conference" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Conversation" EntityType="Self.Conversation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserConversation" EntityType="Self.UserConversation" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_Conference_Profile" Association="Self.FK_Conference_Profile">
       <End Role="Profile" EntitySet="Profile" />
       <End Role="Conference" EntitySet="Conference" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Conv_Msg" Association="Self.FK_Conv_Msg">
+      <End Role="Conversation" EntitySet="Conversation" />
+      <End Role="Message" EntitySet="Message" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CONV_USER" Association="Self.FK_CONV_USER">
+      <End Role="Conversation" EntitySet="Conversation" />
+      <End Role="UserConversation" EntitySet="UserConversation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USER_CONV" Association="Self.FK_USER_CONV">
+      <End Role="User" EntitySet="User" />
+      <End Role="UserConversation" EntitySet="UserConversation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Msg" Association="Self.FK_User_Msg">
+      <End Role="User" EntitySet="User" />
+      <End Role="Message" EntitySet="Message" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

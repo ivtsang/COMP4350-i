@@ -20,13 +20,6 @@ namespace ConnectR.Controllers
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
         public ActionResult Conference()
         {
             ViewBag.Message = "Upcoming conferences";

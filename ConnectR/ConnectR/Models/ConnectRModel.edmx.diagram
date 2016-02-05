@@ -5,10 +5,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="6bba6cab43f44314aea8b5ca75a43ef0" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.Conference" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Conference" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Profile" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="Model.FK_Conference_Profile" ManuallyRouted="false" />
-      </Diagram>
+        <EntityTypeShape EntityType="Model.Conversation" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="Model.Message" Width="1.5" PointX="5.75" PointY="5" />
+        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="0.75" PointY="5" />
+        <AssociationConnector Association="Model.FK_Conv_Msg" />
+        <AssociationConnector Association="Model.FK_User_Msg" />
+        <AssociationConnector Association="Model.UserConversation" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

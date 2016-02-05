@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using ConnectR.Models;
-using System.Web.Security;
 using Microsoft.AspNet.Identity;
 
 namespace ConnectR.Controllers
 {
     public class ConferenceController : Controller
     {
-        private Entities db = new Entities();
+        private ConnectRContext db = new ConnectRContext();
 
         // GET: Conference
         public ActionResult Index()
         {
-            var Conference = db.Conferences.Include(c => c.Profile);
+            var Conference = db.Conferences;
             return View(Conference.ToList());
         }
 

@@ -30,5 +30,38 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Conversations">
+      <EntityTypeMapping TypeName="Model.Conversation">
+        <MappingFragment StoreEntitySet="Conversation">
+          <ScalarProperty Name="conv_id" ColumnName="conv_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="Model.Message">
+        <MappingFragment StoreEntitySet="Message">
+          <ScalarProperty Name="msg_txt" ColumnName="msg_txt" />
+          <ScalarProperty Name="msg_date" ColumnName="msg_date" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="conv_id" ColumnName="conv_id" />
+          <ScalarProperty Name="msg_id" ColumnName="msg_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="Model.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserConversation" TypeName="Model.UserConversation" StoreEntitySet="UserConversation">
+      <EndProperty Name="User">
+        <ScalarProperty Name="user_id" ColumnName="user_id" />
+      </EndProperty>
+      <EndProperty Name="Conversation">
+        <ScalarProperty Name="conv_id" ColumnName="conv_id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>
