@@ -221,6 +221,7 @@
     <Compile Include="Models\Conference.cs">
       <DependentUpon>ConnectRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConferenceModel.cs" />
     <Compile Include="Models\ConnectRModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -250,7 +251,12 @@
     <Compile Include="Models\Profile.cs">
       <DependentUpon>ConnectRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ConferenceRepository.cs" />
+    <Compile Include="Repositories\ProfileRepository.cs" />
+    <Compile Include="ServiceControllers\ConferencesServiceController.cs" />
+    <Compile Include="ServiceControllers\ProfilesServiceController.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
