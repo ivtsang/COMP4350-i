@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ConnectR.Models.Conversation>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.conv_id }) |
+                @Html.ActionLink("JOIN IN ON THIS CONVERSATION", "Details", new { id = item.conv_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.conv_id })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(Model => item)
+            </td>
+        </tr>
+    }
+
+</table>

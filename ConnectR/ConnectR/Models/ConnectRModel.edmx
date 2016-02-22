@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="Conference">
           <Key>
             <PropertyRef Name="ConferenceId" />
@@ -16,6 +33,22 @@
           <Property Name="Title" Type="nvarchar" MaxLength="50" />
           <Property Name="Date" Type="datetime" />
           <Property Name="Location" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="conv_id" />
+          </Key>
+          <Property Name="conv_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="msg_id" />
+          </Key>
+          <Property Name="msg_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="conv_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="msg_date" Type="datetime" Nullable="false" />
+          <Property Name="msg_content" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Profile">
           <Key>
@@ -32,6 +65,14 @@
           <Property Name="Degree" Type="nvarchar" MaxLength="50" />
           <Property Name="Image" Type="binary" MaxLength="2048" />
         </EntityType>
+        <EntityType Name="UserConv">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="conv_id" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Conference_Profile">
           <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
           <End Role="Conference" Type="Self.Conference" Multiplicity="*" />
@@ -44,12 +85,96 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ConvUser">
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="1" />
+          <End Role="UserConv" Type="Self.UserConv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="conv_id" />
+            </Principal>
+            <Dependent Role="UserConv">
+              <PropertyRef Name="conv_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Msg_Conv">
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="conv_id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="conv_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Msg_User">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profile_User">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Profile">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserConv">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserConv" Type="Self.UserConv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserConv">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conference" EntityType="Self.Conference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conversation" EntityType="Self.Conversation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserConv" EntityType="Self.UserConv" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Conference_Profile" Association="Self.FK_Conference_Profile">
             <End Role="Profile" EntitySet="Profile" />
             <End Role="Conference" EntitySet="Conference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConvUser" Association="Self.FK_ConvUser">
+            <End Role="Conversation" EntitySet="Conversation" />
+            <End Role="UserConv" EntitySet="UserConv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Msg_Conv" Association="Self.FK_Msg_Conv">
+            <End Role="Conversation" EntitySet="Conversation" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Msg_User" Association="Self.FK_Msg_User">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profile_User" Association="Self.FK_Profile_User">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Profile" EntitySet="Profile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserConv" Association="Self.FK_UserConv">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserConv" EntitySet="UserConv" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -84,6 +209,7 @@
           <Property Name="Degree" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Image" Type="Binary" MaxLength="2048" FixedLength="true" />
           <NavigationProperty Name="Conferences" Relationship="Self.FK_Conference_Profile" FromRole="Profile" ToRole="Conference" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_Profile_User" FromRole="Profile" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="FK_Conference_Profile">
           <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
@@ -104,7 +230,141 @@
             <End Role="Profile" EntitySet="Profiles" />
             <End Role="Conference" EntitySet="Conferences" />
           </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="Model.AspNetUser" />
+          <EntitySet Name="Conversations" EntityType="Model.Conversation" />
+          <EntitySet Name="Messages" EntityType="Model.Message" />
+          <EntitySet Name="UserConvs" EntityType="Model.UserConv" />
+          <AssociationSet Name="FK_Msg_User" Association="Model.FK_Msg_User">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profile_User" Association="Model.FK_Profile_User">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Profile" EntitySet="Profiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserConv" Association="Model.FK_UserConv">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserConv" EntitySet="UserConvs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConvUser" Association="Model.FK_ConvUser">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="UserConv" EntitySet="UserConvs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Msg_Conv" Association="Model.FK_Msg_Conv">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Messages" Relationship="Model.FK_Msg_User" FromRole="AspNetUser" ToRole="Message" />
+          <NavigationProperty Name="Profiles" Relationship="Model.FK_Profile_User" FromRole="AspNetUser" ToRole="Profile" />
+          <NavigationProperty Name="UserConvs" Relationship="Model.FK_UserConv" FromRole="AspNetUser" ToRole="UserConv" />
+        </EntityType>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="conv_id" />
+          </Key>
+          <Property Name="conv_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="UserConvs" Relationship="Model.FK_ConvUser" FromRole="Conversation" ToRole="UserConv" />
+          <NavigationProperty Name="Messages" Relationship="Model.FK_Msg_Conv" FromRole="Conversation" ToRole="Message" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="msg_id" />
+          </Key>
+          <Property Name="msg_id" Type="Int32" Nullable="false" />
+          <Property Name="conv_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="msg_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="msg_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_Msg_User" FromRole="Message" ToRole="AspNetUser" />
+          <NavigationProperty Name="Conversation" Relationship="Model.FK_Msg_Conv" FromRole="Message" ToRole="Conversation" />
+        </EntityType>
+        <EntityType Name="UserConv">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="conv_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_UserConv" FromRole="UserConv" ToRole="AspNetUser" />
+          <NavigationProperty Name="Conversation" Relationship="Model.FK_ConvUser" FromRole="UserConv" ToRole="Conversation" />
+        </EntityType>
+        <Association Name="FK_Msg_User">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Model.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profile_User">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Model.Profile" Role="Profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Profile">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserConv">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Model.UserConv" Role="UserConv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserConv">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConvUser">
+          <End Type="Model.Conversation" Role="Conversation" Multiplicity="1" />
+          <End Type="Model.UserConv" Role="UserConv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="conv_id" />
+            </Principal>
+            <Dependent Role="UserConv">
+              <PropertyRef Name="conv_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Msg_Conv">
+          <End Type="Model.Conversation" Role="Conversation" Multiplicity="1" />
+          <End Type="Model.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="conv_id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="conv_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -137,6 +397,51 @@
                 <ScalarProperty Name="School" ColumnName="School" />
                 <ScalarProperty Name="Degree" ColumnName="Degree" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conversations">
+            <EntityTypeMapping TypeName="Model.Conversation">
+              <MappingFragment StoreEntitySet="Conversation">
+                <ScalarProperty Name="conv_id" ColumnName="conv_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="Model.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="msg_content" ColumnName="msg_content" />
+                <ScalarProperty Name="msg_date" ColumnName="msg_date" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="conv_id" ColumnName="conv_id" />
+                <ScalarProperty Name="msg_id" ColumnName="msg_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserConvs">
+            <EntityTypeMapping TypeName="Model.UserConv">
+              <MappingFragment StoreEntitySet="UserConv">
+                <ScalarProperty Name="conv_id" ColumnName="conv_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

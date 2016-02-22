@@ -4,10 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6bba6cab43f44314aea8b5ca75a43ef0" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.Conference" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Profile" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+      <Diagram DiagramId="6bba6cab43f44314aea8b5ca75a43ef0" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="Model.Conference" Width="1.5" PointX="0.875" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Profile" Width="1.5" PointX="3.125" PointY="0.625" IsExpanded="true" />
         <AssociationConnector Association="Model.FK_Conference_Profile" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.AspNetUser" Width="1.5" PointX="5.125" PointY="0.625" />
+        <EntityTypeShape EntityType="Model.Conversation" Width="1.5" PointX="9.125" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Message" Width="1.5" PointX="10.125" PointY="5.25" />
+        <EntityTypeShape EntityType="Model.UserConv" Width="1.5" PointX="7.125" PointY="2" />
+        <AssociationConnector Association="Model.FK_Msg_User" />
+        <AssociationConnector Association="Model.FK_Profile_User" />
+        <AssociationConnector Association="Model.FK_UserConv" />
+        <AssociationConnector Association="Model.FK_ConvUser" />
+        <AssociationConnector Association="Model.FK_Msg_Conv" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

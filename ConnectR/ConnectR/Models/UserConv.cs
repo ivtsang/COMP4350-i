@@ -12,16 +12,13 @@ namespace ConnectR.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Conference
+    public partial class UserConv
     {
-        public int ConferenceId { get; set; }
-        public int ProfileId { get; set; }
-        public string Content { get; set; }
-        public byte[] Image { get; set; }
-        public string Title { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public string Location { get; set; }
+        public int id { get; set; }
+        public string user_id { get; set; }
+        public int conv_id { get; set; }
     
-        public virtual Profile Profile { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Conversation Conversation { get; set; }
     }
 }

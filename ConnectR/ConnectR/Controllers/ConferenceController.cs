@@ -46,6 +46,10 @@ namespace ConnectR.Controllers
             var query = from p in db.Profiles
                           where p.UserId == userId
                           select p;
+
+            //if it can't find it, it will crash
+            //rather, if the user does not have profile yet, it will crash
+
             Profile profile = query.ToList().First();
             Conference newConference = new Conference();
             newConference.ProfileId = profile.ProfileId;

@@ -12,27 +12,20 @@ namespace ConnectR.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Profile
+    public partial class Conversation
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Profile()
+        public Conversation()
         {
-            this.Conferences = new HashSet<Conference>();
+            this.UserConvs = new HashSet<UserConv>();
+            this.Messages = new HashSet<Message>();
         }
     
-        public int ProfileId { get; set; }
-        public string UserId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Nullable<int> Age { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string School { get; set; }
-        public string Degree { get; set; }
-        public byte[] Image { get; set; }
+        public int conv_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Conference> Conferences { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual ICollection<UserConv> UserConvs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }
