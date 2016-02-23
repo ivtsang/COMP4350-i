@@ -240,6 +240,10 @@
     <Compile Include="Models\Conversation.cs">
       <DependentUpon>ConnectRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\File.cs">
+      <DependentUpon>ConnectRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs">
@@ -271,6 +275,7 @@
       <DependentUpon>ConnectRModel.edmx</DependentUpon>
       <LastGenOutput>ConnectRModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\ConnectRModel.edmx.sql" />
     <Content Include="Models\ConnectRModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ConnectRModel.edmx</DependentUpon>

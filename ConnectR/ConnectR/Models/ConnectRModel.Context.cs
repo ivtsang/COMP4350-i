@@ -30,5 +30,6 @@ namespace ConnectR.Models
         public virtual DbSet<Conversation> Conversations { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
+        public virtual DbSet<File> Files { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace ConnectR.Models
             this.Conferences = new HashSet<Conference>();
             this.Messages = new HashSet<Message>();
             this.Participants = new HashSet<Participant>();
+            this.Files = new HashSet<File>();
         }
     
         public int ProfileId { get; set; }
@@ -39,5 +40,7 @@ namespace ConnectR.Models
         public virtual ICollection<Message> Messages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Participant> Participants { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<File> Files { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR\Models\ConnectRModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Lukas\Source\Repos\COMP4350-i\ConnectR\ConnectR\Models\ConnectRModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -75,11 +75,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Image)
+            @Html.DisplayFor(model => model.Image)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Image)
+            <img src="~/File?id=@Model.Files.First().Id" alt="image" />
         </dd>
 
     </dl>

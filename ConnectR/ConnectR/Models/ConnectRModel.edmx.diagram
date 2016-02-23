@@ -15,6 +15,8 @@
         <EntityTypeShape EntityType="Model.Participant" Width="1.5" PointX="6" PointY="5.25" />
         <AssociationConnector Association="Model.FK_Participant_Conversation" />
         <AssociationConnector Association="Model.FK_Participant_Profile" />
+        <EntityTypeShape EntityType="Model.File" Width="1.5" PointX="0.5" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="Model.FileProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -19,11 +19,14 @@ namespace ConnectR.Controllers
 
         protected override void Initialize(RequestContext requestContext)
         {
-            if (requestContext.RouteData.GetRequiredString("action").Equals("create", StringComparison.InvariantCultureIgnoreCase))
+            /*if (requestContext.RouteData.GetRequiredString("action").Equals("create", StringComparison.InvariantCultureIgnoreCase))
             {
-                int profileID = db.Profiles.Max(p => p.ProfileId);
-                ViewBag.ProfileID = profileID + 1;
-            }
+                int? profileID = db.Profiles.Max(p => p.ProfileId);
+                if (profileID.HasValue)
+                    ViewBag.ProfileID = profileID + 1;
+                else
+                    ViewBag.ProfileID = 1;
+            }*/
             base.Initialize(requestContext);
         }
 
@@ -40,7 +43,7 @@ namespace ConnectR.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Profile profile = await db.Profiles.FindAsync(id);
+            Profile profile = await db.Profiles.Include("Files").SingleOrDefaultAsync(p => p.ProfileId == id);
             if (profile == null)
             {
                 return HttpNotFound();
@@ -61,13 +64,37 @@ namespace ConnectR.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ProfileId,UserId,FirstName,LastName,Age,Country,City,School,Degree,Image")] Profile profile)
+        public async Task<ActionResult> Create([Bind(Include = "UserId,FirstName,LastName,Age,Country,City,School,Degree")] Profile profile, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                File avatar;
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    avatar = new File();
+                    avatar.FileName = System.IO.Path.GetFileName(upload.FileName);
+                    avatar.FileType = (byte)FileType.Picture;
+                    avatar.ContentType = upload.ContentType;
+
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                }
+                else
+                    avatar = null;
                 profile.UserId = User.Identity.GetUserId();
                 db.Profiles.Add(profile);
                 await db.SaveChangesAsync();
+                if (avatar != null)
+                {
+                    avatar.ProfileId = profile.ProfileId;
+                    avatar.Profile = profile;
+                    db.Files.Add(avatar);
+                    await db.SaveChangesAsync();
+                    profile.Files = new List<File> { avatar };
+                    await db.SaveChangesAsync();
+                }
                 return RedirectToAction("Index");
             }
 
