@@ -210,3 +210,7 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+ConnectR/.vs/config/applicationhost.config
+ConnectR/ConnectR/obj/Debug/edmxResourcesToEmbed/Models/ConnectRModel.csdl
+ConnectR/ConnectR/obj/Debug/edmxResourcesToEmbed/Models/ConnectRModel.msl
+ConnectR/ConnectR/obj/Debug/edmxResourcesToEmbed/Models/ConnectRModel.ssdl
