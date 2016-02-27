@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/21/2016 22:37:21
+-- Date Created: 02/25/2016 00:21:07
 -- Generated from EDMX file: C:\Users\Lukas\Source\Repos\COMP4350-i\ConnectR\ConnectR\Models\ConnectRModel.edmx
 -- --------------------------------------------------
 
@@ -77,7 +77,7 @@ GO
 
 -- Creating table 'Profiles'
 CREATE TABLE [dbo].[Profiles] (
-    [ProfileId] int  NOT NULL,
+    [ProfileId] int IDENTITY(1,1) NOT NULL,
     [UserId] nvarchar(128)  NOT NULL,
     [FirstName] nvarchar(50)  NULL,
     [LastName] nvarchar(50)  NULL,
@@ -120,8 +120,8 @@ CREATE TABLE [dbo].[Files] (
     [ProfileId] int  NOT NULL,
     [FileName] nvarchar(max)  NOT NULL,
     [ContentType] nvarchar(max)  NOT NULL,
-    [Content] tinyint  NOT NULL,
-    [FileType] nvarchar(max)  NOT NULL
+    [Content] varbinary(max)  NOT NULL,
+    [FileType] smallint  NOT NULL
 );
 GO
 

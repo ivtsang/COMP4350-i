@@ -26,10 +26,10 @@ namespace ConnectR.Models
         }
     
         public virtual DbSet<Conference> Conferences { get; set; }
-        public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Conversation> Conversations { get; set; }
+        public virtual DbSet<File> Files { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
-        public virtual DbSet<File> Files { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
     }
 }
