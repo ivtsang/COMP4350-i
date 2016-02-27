@@ -5,9 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="6bba6cab43f44314aea8b5ca75a43ef0" Name="Diagram1" ZoomLevel="85">
-        <EntityTypeShape EntityType="Model.Conference" Width="1.5" PointX="3" PointY="9.5" />
+        <EntityTypeShape EntityType="Model.Conference" Width="1.5" PointX="3" PointY="3.75" />
         <EntityTypeShape EntityType="Model.Conversation" Width="1.5" PointX="3.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Model.File" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="Model.File" Width="1.5" PointX="3" PointY="9.75" />
         <EntityTypeShape EntityType="Model.Message" Width="1.5" PointX="6" PointY="2.5" />
         <EntityTypeShape EntityType="Model.Participant" Width="1.5" PointX="6" PointY="5.5" />
         <EntityTypeShape EntityType="Model.Profile" Width="1.5" PointX="0.75" PointY="4.75" />

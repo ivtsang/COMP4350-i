@@ -11,11 +11,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ProfileId)
+            @Html.DisplayFor(model => model.UserImage)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ProfileId)
+            <img src="@Url.Action("Index", "File", new { id = Model.UserImage})" />
         </dd>
 
         <dt>
@@ -75,16 +75,24 @@
         </dd>
 
         <dt>
-            @Html.DisplayFor(model => model.Image)
+            @Html.DisplayNameFor(model => model.About)
         </dt>
 
         <dd>
-            <img src="~/File?id=@Model.Files.First().Id" alt="image" />
+            @Html.DisplayFor(model => model.About)
         </dd>
-
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProfileId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+@if (Model.UserId == ViewBag.UserId)
+{
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ProfileId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+@if (Model.UserId != ViewBag.UserId)
+{
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

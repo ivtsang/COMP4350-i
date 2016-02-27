@@ -19,7 +19,7 @@ namespace ConnectR.Controllers
     public class ConferenceController : Controller
     {
         private Entities db = new Entities();
-        private string baseUri = "http://localhost:49950/api/ConferencesService";
+        private string baseUri = "http://ec2-52-37-0-160.us-west-2.compute.amazonaws.com/api/ConferencesService";
 
         // GET: Conference
         public async Task<ActionResult> Index()
@@ -180,7 +180,7 @@ namespace ConnectR.Controllers
             string userId = User.Identity.GetUserId();
             if(userId != null)
             {
-                string uri = "http://localhost:49950/api/ProfilesService/GetProfileByUserId/" + userId;
+                string uri = "http://ec2-52-37-0-160.us-west-2.compute.amazonaws.com/api/ProfilesService/GetProfileByUserId/" + userId;
                 ProfileModel profile;
 
                 using (HttpClient httpClient = new HttpClient())
