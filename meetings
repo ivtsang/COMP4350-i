@@ -14,3 +14,8 @@ Jan 28
   Assign issues which other issues depend on to people who have time to work on them right away
   Code reviews
   
+  outcome to today's physical meeting: 
+  Issue 1: Hosting the database into AWS server. Ahmed will look into this issue. 
+  Issue 2: Implementing testing framework: Daniel and Ivan will figure out this issue, Selenium testind : Nicholas will look at this.
+  Issue 3: Completing the Profiles: Lucas will try to finish this task within this iteration. 
+  Issue 4. Completing the Search functionality: Ahmed will complete this searching functionality.
