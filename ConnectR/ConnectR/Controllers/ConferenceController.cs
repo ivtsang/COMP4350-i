@@ -194,16 +194,5 @@ namespace ConnectR.Controllers
 
             return 0;
         }
-
-        public IEnumerable<Conference> SearchConference(Conference conference)
-        {
-            IEnumerable<Conference> result = from c in db.Conferences
-                                where (conference.Title != null && c.Title == conference.Title)
-                                where (conference.Location != null && c.Location == conference.Location)
-                                where (conference.Date != null && c.Date == conference.Date)
-                                select c;
-
-            return result;
-        }
     }
 }

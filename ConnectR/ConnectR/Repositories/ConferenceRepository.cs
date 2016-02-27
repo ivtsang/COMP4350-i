@@ -48,6 +48,18 @@ namespace ConnectR.Repositories
             db.SaveChanges();
         }
 
+
+        public IEnumerable<Conference> SearchConference(ConferenceModel conference)
+        {
+            IEnumerable<Conference> result = from c in db.Conferences
+                                             where (conference.Title != null && c.Title == conference.Title)
+                                             where (conference.Location != null && c.Location == conference.Location)
+                                             where (conference.Date != null && c.Date == conference.Date)
+                                             select c;
+
+            return result;
+        }
+
         public Conference ConvertToConference(ConferenceModel conference)
         {
             Conference c = new Conference
