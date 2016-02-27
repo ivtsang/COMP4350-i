@@ -13,7 +13,8 @@ Jan 28
   Decided to create tables first, models are generated
   Assign issues which other issues depend on to people who have time to work on them right away
   Code reviews
-  
+
+Feb 23  
   outcome to today's physical meeting: 
   Issue 1: Hosting the database into AWS server. Ahmed will look into this issue. 
   Issue 2: Implementing testing framework: Daniel and Ivan will figure out this issue, Selenium testind : Nicholas will look at this.
