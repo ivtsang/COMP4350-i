@@ -99,28 +99,42 @@ Assuming everyone puts in 2 days worth of time over 2 weeks,
 	Fill profile with basic information such as education, research interests/experience
 	Priority: High | Cost: 3 days (2 for back-end)
 	
-        Limit search by criteria such as interests, institution, education/certifications
-        Priority: High | Cost: 2 days (1 for back-end)
-        
         Setup page about conference
 	Priority: High | Cost: 2 Days (1 for back-end)
         
-        Private Messaging
-	Send and receive private messages to and from other prof/students.
+	Total cost: 12 days
+
+Detailed stories for iter2: (front-end)
+
+        Messaging
+	Send and receive messages to and from other prof/students.
 	Priority: High | Cost: 3 Days (2 for back-end)
 	
-	Filter System
+	Delaying to iter3:
+	
+	Limit search by criteria such as interests, institution, education/certifications
+        Priority: High | Cost: 2 days (1 for back-end)
+        
+        Filter System
 	Create and save filters based on parameters such as username, location, field, etc.
 	Priority: High | Cost: 3 Days (2 for back-end) 
 	
 	Live Activity of whom I'm following
 	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
 	Priority: Medium | Cost: 3 days (2 for back-end)
-    	
-	Total cost: 12 days
-
-Detailed stories for iter2: (front-end)
 
 Mobile + testing, iter3:
+
+	Limit search by criteria such as interests, institution, education/certifications
+        Priority: High | Cost: 2 days (1 for back-end)
+        
+        Filter System
+	Create and save filters based on parameters such as username, location, field, etc.
+	Priority: High | Cost: 3 Days (2 for back-end) 
+	
+	Live Activity of whom I'm following
+	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
+	Priority: Medium | Cost: 3 days (2 for back-end)
+
 
 Cl + load test + deliver, iter4:
