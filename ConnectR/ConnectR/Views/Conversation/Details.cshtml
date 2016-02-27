@@ -1,0 +1,27 @@
+﻿@model ConnectR.Models.Conversation
+
+<h1> CONVERSATION @Model.conv_id</h1>
+
+<table>
+    @foreach (var messages in Model.Messages)
+    {
+        <tr>
+            <td></td>
+            @Html.DisplayFor(Model => messages)
+        </tr>
+    }
+
+</table>
+
+@using (Html.BeginForm("Create", "Message", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="conv_id" value=@Model.conv_id />
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="text" name="msg_content" class="form-control" />
+            <input type="submit" value="SEND" class="btn btn-default" />
+        </div>
+    </div>
+}

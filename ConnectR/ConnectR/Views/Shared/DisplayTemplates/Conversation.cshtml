@@ -1,0 +1,10 @@
+﻿@model ConnectR.Models.Conversation
+
+@Html.DisplayFor(x => Model.conv_id)
+@foreach (var messages in Model.Messages)
+{
+    <tr>
+        <td></td>
+        @Html.DisplayFor(Model => messages)
+    </tr>
+}
