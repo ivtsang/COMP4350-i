@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/25/2016 00:21:07
--- Generated from EDMX file: C:\Users\Lukas\Source\Repos\COMP4350-i\ConnectR\ConnectR\Models\ConnectRModel.edmx
+-- Date Created: 02/26/2016 20:53:34
+-- Generated from EDMX file: C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR\Models\ConnectRModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [aspnet-ConnectR-20160201042538];
+USE [ConnectR-Entities];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -19,6 +19,9 @@ GO
 
 IF OBJECT_ID(N'[dbo].[FK_Conference_Profile]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Conferences] DROP CONSTRAINT [FK_Conference_Profile];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileProfile]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Files] DROP CONSTRAINT [FK_FileProfile];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Message_Conversation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_Message_Conversation];
@@ -32,9 +35,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Participant_Profile]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Participants] DROP CONSTRAINT [FK_Participant_Profile];
 GO
-IF OBJECT_ID(N'[dbo].[FK_FileProfile]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Files] DROP CONSTRAINT [FK_FileProfile];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -43,11 +43,11 @@ GO
 IF OBJECT_ID(N'[dbo].[Conferences]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Conferences];
 GO
-IF OBJECT_ID(N'[dbo].[Profiles]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Profiles];
-GO
 IF OBJECT_ID(N'[dbo].[Conversations]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Conversations];
+GO
+IF OBJECT_ID(N'[dbo].[Files]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Files];
 GO
 IF OBJECT_ID(N'[dbo].[Messages]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Messages];
@@ -55,8 +55,8 @@ GO
 IF OBJECT_ID(N'[dbo].[Participants]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Participants];
 GO
-IF OBJECT_ID(N'[dbo].[Files]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Files];
+IF OBJECT_ID(N'[dbo].[Profiles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Profiles];
 GO
 
 -- --------------------------------------------------
@@ -75,24 +75,20 @@ CREATE TABLE [dbo].[Conferences] (
 );
 GO
 
--- Creating table 'Profiles'
-CREATE TABLE [dbo].[Profiles] (
-    [ProfileId] int IDENTITY(1,1) NOT NULL,
-    [UserId] nvarchar(128)  NOT NULL,
-    [FirstName] nvarchar(50)  NULL,
-    [LastName] nvarchar(50)  NULL,
-    [Age] int  NULL,
-    [Country] nvarchar(50)  NULL,
-    [City] nvarchar(50)  NULL,
-    [School] nvarchar(50)  NULL,
-    [Degree] nvarchar(50)  NULL,
-    [Image] binary(2048)  NULL
-);
-GO
-
 -- Creating table 'Conversations'
 CREATE TABLE [dbo].[Conversations] (
     [ConversationId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Files'
+CREATE TABLE [dbo].[Files] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ProfileId] int  NOT NULL,
+    [FileName] nvarchar(max)  NOT NULL,
+    [ContentType] nvarchar(max)  NOT NULL,
+    [Content] varbinary(max)  NOT NULL,
+    [FileType] smallint  NOT NULL
 );
 GO
 
@@ -114,14 +110,19 @@ CREATE TABLE [dbo].[Participants] (
 );
 GO
 
--- Creating table 'Files'
-CREATE TABLE [dbo].[Files] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [ProfileId] int  NOT NULL,
-    [FileName] nvarchar(max)  NOT NULL,
-    [ContentType] nvarchar(max)  NOT NULL,
-    [Content] varbinary(max)  NOT NULL,
-    [FileType] smallint  NOT NULL
+-- Creating table 'Profiles'
+CREATE TABLE [dbo].[Profiles] (
+    [ProfileId] int IDENTITY(1,1) NOT NULL,
+    [UserId] nvarchar(128)  NOT NULL,
+    [FirstName] nvarchar(50)  NULL,
+    [LastName] nvarchar(50)  NULL,
+    [Age] int  NULL,
+    [Country] nvarchar(50)  NULL,
+    [City] nvarchar(50)  NULL,
+    [School] nvarchar(50)  NULL,
+    [Degree] nvarchar(50)  NULL,
+    [UserImage] int  NULL,
+    [About] nvarchar(max)  NULL
 );
 GO
 
@@ -135,16 +136,16 @@ ADD CONSTRAINT [PK_Conferences]
     PRIMARY KEY CLUSTERED ([ConferenceId] ASC);
 GO
 
--- Creating primary key on [ProfileId] in table 'Profiles'
-ALTER TABLE [dbo].[Profiles]
-ADD CONSTRAINT [PK_Profiles]
-    PRIMARY KEY CLUSTERED ([ProfileId] ASC);
-GO
-
 -- Creating primary key on [ConversationId] in table 'Conversations'
 ALTER TABLE [dbo].[Conversations]
 ADD CONSTRAINT [PK_Conversations]
     PRIMARY KEY CLUSTERED ([ConversationId] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Files'
+ALTER TABLE [dbo].[Files]
+ADD CONSTRAINT [PK_Files]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [MessageId] in table 'Messages'
@@ -159,10 +160,10 @@ ADD CONSTRAINT [PK_Participants]
     PRIMARY KEY CLUSTERED ([ParticipantId] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Files'
-ALTER TABLE [dbo].[Files]
-ADD CONSTRAINT [PK_Files]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+-- Creating primary key on [ProfileId] in table 'Profiles'
+ALTER TABLE [dbo].[Profiles]
+ADD CONSTRAINT [PK_Profiles]
+    PRIMARY KEY CLUSTERED ([ProfileId] ASC);
 GO
 
 -- --------------------------------------------------
@@ -199,21 +200,6 @@ ON [dbo].[Messages]
     ([ConversationId]);
 GO
 
--- Creating foreign key on [ProfileId] in table 'Messages'
-ALTER TABLE [dbo].[Messages]
-ADD CONSTRAINT [FK_Message_ToTable]
-    FOREIGN KEY ([ProfileId])
-    REFERENCES [dbo].[Profiles]
-        ([ProfileId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Message_ToTable'
-CREATE INDEX [IX_FK_Message_ToTable]
-ON [dbo].[Messages]
-    ([ProfileId]);
-GO
-
 -- Creating foreign key on [ConversationId] in table 'Participants'
 ALTER TABLE [dbo].[Participants]
 ADD CONSTRAINT [FK_Participant_Conversation]
@@ -229,21 +215,6 @@ ON [dbo].[Participants]
     ([ConversationId]);
 GO
 
--- Creating foreign key on [ProfileId] in table 'Participants'
-ALTER TABLE [dbo].[Participants]
-ADD CONSTRAINT [FK_Participant_Profile]
-    FOREIGN KEY ([ProfileId])
-    REFERENCES [dbo].[Profiles]
-        ([ProfileId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Participant_Profile'
-CREATE INDEX [IX_FK_Participant_Profile]
-ON [dbo].[Participants]
-    ([ProfileId]);
-GO
-
 -- Creating foreign key on [ProfileId] in table 'Files'
 ALTER TABLE [dbo].[Files]
 ADD CONSTRAINT [FK_FileProfile]
@@ -256,6 +227,36 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_FileProfile'
 CREATE INDEX [IX_FK_FileProfile]
 ON [dbo].[Files]
+    ([ProfileId]);
+GO
+
+-- Creating foreign key on [ProfileId] in table 'Messages'
+ALTER TABLE [dbo].[Messages]
+ADD CONSTRAINT [FK_Message_ToTable]
+    FOREIGN KEY ([ProfileId])
+    REFERENCES [dbo].[Profiles]
+        ([ProfileId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Message_ToTable'
+CREATE INDEX [IX_FK_Message_ToTable]
+ON [dbo].[Messages]
+    ([ProfileId]);
+GO
+
+-- Creating foreign key on [ProfileId] in table 'Participants'
+ALTER TABLE [dbo].[Participants]
+ADD CONSTRAINT [FK_Participant_Profile]
+    FOREIGN KEY ([ProfileId])
+    REFERENCES [dbo].[Profiles]
+        ([ProfileId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Participant_Profile'
+CREATE INDEX [IX_FK_Participant_Profile]
+ON [dbo].[Participants]
     ([ProfileId]);
 GO
 

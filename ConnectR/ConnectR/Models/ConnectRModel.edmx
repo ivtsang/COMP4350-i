@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="ConferenceId" />
           </Key>
-          <Property Name="ConferenceId" Type="int" Nullable="false" />
+          <Property Name="ConferenceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProfileId" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" />
           <Property Name="Image" Type="binary" MaxLength="2048" />
@@ -361,76 +361,76 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
-          <EntitySetMapping Name="Conferences">
-            <EntityTypeMapping TypeName="Model.Conference">
-              <MappingFragment StoreEntitySet="Conferences">
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="ConferenceId" ColumnName="ConferenceId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Conversations">
-            <EntityTypeMapping TypeName="Model.Conversation">
-              <MappingFragment StoreEntitySet="Conversations">
-                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Files">
-            <EntityTypeMapping TypeName="Model.File">
-              <MappingFragment StoreEntitySet="Files">
-                <ScalarProperty Name="FileType" ColumnName="FileType" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Messages">
-            <EntityTypeMapping TypeName="Model.Message">
-              <MappingFragment StoreEntitySet="Messages">
-                <ScalarProperty Name="Text" ColumnName="Text" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
-                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Participants">
-            <EntityTypeMapping TypeName="Model.Participant">
-              <MappingFragment StoreEntitySet="Participants">
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
-                <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Profiles">
-            <EntityTypeMapping TypeName="Model.Profile">
-              <MappingFragment StoreEntitySet="Profiles">
-                <ScalarProperty Name="About" ColumnName="About" />
-                <ScalarProperty Name="UserImage" ColumnName="UserImage" />
-                <ScalarProperty Name="Degree" ColumnName="Degree" />
-                <ScalarProperty Name="School" ColumnName="School" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
+    <EntitySetMapping Name="Conferences">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Conference)">
+        <MappingFragment StoreEntitySet="Conferences">
+          <ScalarProperty Name="ConferenceId" ColumnName="ConferenceId" />
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Conversations">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Conversation)">
+        <MappingFragment StoreEntitySet="Conversations">
+          <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Files">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.File)">
+        <MappingFragment StoreEntitySet="Files">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="FileType" ColumnName="FileType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Message)">
+        <MappingFragment StoreEntitySet="Messages">
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Participants">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Participant)">
+        <MappingFragment StoreEntitySet="Participants">
+          <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+          <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Profiles">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Profile)">
+        <MappingFragment StoreEntitySet="Profiles">
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="School" ColumnName="School" />
+          <ScalarProperty Name="Degree" ColumnName="Degree" />
+          <ScalarProperty Name="UserImage" ColumnName="UserImage" />
+          <ScalarProperty Name="About" ColumnName="About" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

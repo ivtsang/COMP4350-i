@@ -21,7 +21,7 @@ namespace ConnectR.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("UserTables", throwIfV1Schema: false)
         {
         }
 
