@@ -34,6 +34,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -324,7 +326,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -351,7 +352,6 @@
     <Content Include="Views\Conference\Details.cshtml" />
     <Content Include="Views\Conference\Edit.cshtml" />
     <Content Include="Views\Conference\Index.cshtml" />
-    <Content Include="Views\Home\Conference.cshtml" />
     <Content Include="Views\Profiles\Create.cshtml" />
     <Content Include="Views\Profiles\Delete.cshtml" />
     <Content Include="Views\Profiles\Details.cshtml" />
