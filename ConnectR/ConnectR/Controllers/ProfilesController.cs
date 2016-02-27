@@ -68,33 +68,33 @@ namespace ConnectR.Controllers
         {
             if (ModelState.IsValid)
             {
-                File avatar;
+                //File avatar;
                 if (upload != null && upload.ContentLength > 0)
                 {
-                    avatar = new File();
-                    avatar.FileName = System.IO.Path.GetFileName(upload.FileName);
-                    avatar.FileType = (byte)FileType.Picture;
-                    avatar.ContentType = upload.ContentType;
+                    //avatar = new File();
+                    ///avatar.FileName = System.IO.Path.GetFileName(upload.FileName);
+                    //.FileType = (byte)FileType.Picture;
+                    //.ContentType = upload.ContentType;
 
                     using (var reader = new System.IO.BinaryReader(upload.InputStream))
                     {
-                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                        //avatar.Content = reader.ReadBytes(upload.ContentLength);
                     }
                 }
                 else
-                    avatar = null;
+                    //avatar = null;
                 profile.UserId = User.Identity.GetUserId();
                 db.Profiles.Add(profile);
                 await db.SaveChangesAsync();
-                if (avatar != null)
-                {
-                    avatar.ProfileId = profile.ProfileId;
-                    avatar.Profile = profile;
-                    db.Files.Add(avatar);
+                //if (avatar != null)
+               // {
+                   // avatar.ProfileId = profile.ProfileId;
+                   // avatar.Profile = profile;
+                    //db.Files.Add(avatar);
                     await db.SaveChangesAsync();
-                    profile.Files = new List<File> { avatar };
+                    //profile.Files = new List<File> { avatar };
                     await db.SaveChangesAsync();
-                }
+               // }
                 return RedirectToAction("Index");
             }
 

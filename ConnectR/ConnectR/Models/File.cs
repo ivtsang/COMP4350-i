@@ -19,7 +19,7 @@ namespace ConnectR.Models
         public string FileName { get; set; }
         public string ContentType { get; set; }
         public byte[] Content { get; set; }
-        public byte FileType { get; set; }
+        public short FileType { get; set; }
     
         public virtual Profile Profile { get; set; }
     }

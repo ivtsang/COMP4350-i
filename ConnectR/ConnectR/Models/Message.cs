@@ -16,11 +16,10 @@ namespace ConnectR.Models
     {
         public int MessageId { get; set; }
         public int ConversationId { get; set; }
-        public int ProfileId { get; set; }
+        public string SenderName { get; set; }
         public System.DateTime Date { get; set; }
         public string Text { get; set; }
     
         public virtual Conversation Conversation { get; set; }
-        public virtual Profile Profile { get; set; }
     }
 }

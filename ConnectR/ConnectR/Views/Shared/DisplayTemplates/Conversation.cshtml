@@ -1,0 +1,5 @@
+﻿@model ConnectR.Models.Conversation
+@foreach (var messages in Model.Messages)
+{
+    @Html.DisplayFor(Model => messages)
+}

@@ -209,9 +209,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConferenceController.cs" />
+    <Compile Include="Controllers\ConversationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -355,12 +356,12 @@
     <Content Include="Views\Profiles\Edit.cshtml" />
     <Content Include="Views\Profiles\Index.cshtml" />
     <Content Include="Views\Home\Profiles.cshtml" />
-    <Content Include="Views\Messages\Create.cshtml" />
-    <Content Include="Views\Messages\Delete.cshtml" />
-    <Content Include="Views\Messages\Details.cshtml" />
-    <Content Include="Views\Messages\Edit.cshtml" />
-    <Content Include="Views\Messages\Index.cshtml" />
-    <Content Include="Views\Messages\MessageUsers.cshtml" />
+    <Content Include="Views\Conversation\Create.cshtml" />
+    <Content Include="Views\Conversation\Delete.cshtml" />
+    <Content Include="Views\Conversation\Details.cshtml" />
+    <Content Include="Views\Conversation\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Conversation.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Message.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
