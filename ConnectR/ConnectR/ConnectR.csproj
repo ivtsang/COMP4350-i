@@ -297,6 +297,7 @@
     <Content Include="Models\ConnectRModel.edmx.diagram">
       <DependentUpon>ConnectRModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\ConnectR.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
