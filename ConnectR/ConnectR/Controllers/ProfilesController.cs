@@ -146,36 +146,55 @@ namespace ConnectR.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> Edit([Bind(Include = "FirstName,LastName,Age,Country,City,School,Degree")] Profile profile, HttpPostedFileBase upload)
+        public async Task<ActionResult> Edit([Bind(Include = "UserId,ProfileId,FirstName,LastName,Age,Country,City,School,Degree,About")] Profile profile, HttpPostedFileBase upload)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (upload != null && upload.ContentLength > 0)
+                if (ModelState.IsValid)
                 {
-                    if (profile.UserImage > 0)
+                    if (upload != null && upload.ContentLength > 0)
                     {
-                        db.Files.Remove(profile.Files.First(f => f.Id == profile.UserImage));
+                        if (profile.UserImage > 0)
+                        {
+                            db.Files.Remove(profile.Files.First(f => f.Id == profile.UserImage));
+                        }
+                        var avatar = new File
+                        {
+                            FileName = System.IO.Path.GetFileName(upload.FileName),
+                            FileType = (short)FileType.Picture,
+                            ContentType = upload.ContentType
+                        };
+                        using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                        {
+                            avatar.Content = reader.ReadBytes(upload.ContentLength);
+                        }
+                        profile.Files.Add(avatar);
+                        await db.SaveChangesAsync();
+                        profile.UserImage = avatar.Id;
+                        await db.SaveChangesAsync();
                     }
-                    var avatar = new File
+
+                    db.Entry(profile).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
                     {
-                        FileName = System.IO.Path.GetFileName(upload.FileName),
-                        FileType = (short)FileType.Picture,
-                        ContentType = upload.ContentType
-                    };
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                    {
-                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                                                validationError.PropertyName,
+                                                validationError.ErrorMessage);
                     }
-                    profile.Files.Add(avatar);
-                    await db.SaveChangesAsync();
-                    profile.UserImage = avatar.Id;
-                    await db.SaveChangesAsync();
                 }
 
-                db.Entry(profile).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return View(profile);
             }
+
             return View(profile);
         }
 
@@ -202,6 +221,11 @@ namespace ConnectR.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Profile profile = await db.Profiles.FindAsync(id);
+            List<File> fileList = (from f in db.Files where f.ProfileId == profile.ProfileId select f).ToList<File>();
+            foreach(File f in fileList)
+            {
+                db.Files.Remove(f);
+            }
             db.Profiles.Remove(profile);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
