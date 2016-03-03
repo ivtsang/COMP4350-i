@@ -6,29 +6,31 @@ using System.Text;
 using System.Threading.Tasks;
 using ConnectR.Controllers;
 using ConnectR.Models;
+using ConnectR.Repositories;
 
 namespace ConnectR.Tests.Controllers
 {
     [TestClass]
     public class ConferenceControllerTest
     {
-        //[TestMethod]
-        //public void Create()
-        //{
-        //    ConferenceController controller = new ConferenceController();
+        [TestMethod]
+        public void Create()
+        {
+            ConferenceRepository repo = new ConferenceRepository();
 
-        //    Conference conference = new Conference {
-        //        ProfileId = 1,
-        //        Location = "TestLocation",
-        //        Date = new DateTime(2016, 1, 1),
-        //        Content = "TestContet",
-        //        Title = "TestTitle"
-        //    };
-            
-        //    controller.Create(conference);
+            ConferenceModel conference = new ConferenceModel
+            {
+                ProfileId = 13,
+                Location = "TestLocation",
+                Date = new DateTime(2016, 1, 1),
+                Content = "TestContet",
+                Title = "TestTitle"
+            };
 
-        //    var result = controller.SearchConference(conference);
-        //    Assert.IsTrue(result.Count() > 0);
-        //}
+            repo.SaveConference(conference);
+
+            var result = repo.SearchConference(conference);
+            Assert.IsTrue(result.Count() > 0);
+        }
     }
 }

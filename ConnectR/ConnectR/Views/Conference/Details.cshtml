@@ -1,42 +1,48 @@
-﻿@model ConnectR.Models.Conference
+﻿@model ConnectR.Models.ConferenceModel
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+ 
+<h1>
+    @Html.DisplayFor(model => model.Title)
+</h1>
 
-<div>
-    <h4>Conference</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
+<h4> 
+    <p>
+        When: @Html.DisplayFor(model => model.Date)
+    </p>
+    <p>
+        Where: @Html.DisplayFor(model => model.Location)
+    </p>
+    
 
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
+</h4>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Profile.UserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Profile.UserId)
-        </dd>
-
-    </dl>
-</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ConferenceId }) |
+    @Html.DisplayFor(model => model.Content)
+</p>
+
+<p>
+    Contact 
+    @Html.ActionLink(Model.FirstName + " " + Model.LastName, "Details", "Profiles",  new { id = Model.ProfileId }, null)
+    for more information
+</p>
+
+@if (ViewBag.currentUser == Model.ProfileId)
+{
+    <p style="float: right">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ConferenceId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.ConferenceId })
+    </p>
+}
+
+
+<p>
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+
+
+

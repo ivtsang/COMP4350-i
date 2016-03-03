@@ -1,13 +1,25 @@
 ﻿@model IEnumerable<ConnectR.Models.Conversation>
 @{
-    ViewBag.Title = "CONVERSATIONS!";
+    ViewBag.Title = "CONVERSATIONS";
 }
-
-<h2>Conversations!</h2>
-
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("START A NEW CONVERSATION", "Create")
+</p>
+<table class="table">
     @foreach (var item in Model)
     {
-        <table class="table">
-            @Html.DisplayFor(model => item)
-        </table>
+        <tr>
+            <td>
+                @Html.DisplayFor(Model => item.ConversationId) |
+                @Html.ActionLink("JOIN IN ON THIS CONVERSATION", "Details", new { id = item.ConversationId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ConversationId })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(Model => item)
+            </td>
+        </tr>
     }
+</table>

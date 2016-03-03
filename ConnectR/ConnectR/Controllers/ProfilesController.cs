@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using ConnectR.Models;
 using System.Web.Routing;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace ConnectR.Controllers
 {
@@ -19,17 +21,21 @@ namespace ConnectR.Controllers
 
         protected override void Initialize(RequestContext requestContext)
         {
-            if (requestContext.RouteData.GetRequiredString("action").Equals("create", StringComparison.InvariantCultureIgnoreCase))
+            /*if (requestContext.RouteData.GetRequiredString("action").Equals("create", StringComparison.InvariantCultureIgnoreCase))
             {
-                int profileID = db.Profiles.Max(p => p.ProfileId);
-                ViewBag.ProfileID = profileID + 1;
-            }
+                int? profileID = db.Profiles.Max(p => p.ProfileId);
+                if (profileID.HasValue)
+                    ViewBag.ProfileID = profileID + 1;
+                else
+                    ViewBag.ProfileID = 1;
+            }*/
             base.Initialize(requestContext);
         }
 
         // GET: Profiles
         public async Task<ActionResult> Index()
         {
+            ViewBag.UserId = User.Identity.GetUserId();
             return View(await db.Profiles.ToListAsync());
         }
 
@@ -40,11 +46,12 @@ namespace ConnectR.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Profile profile = await db.Profiles.FindAsync(id);
+            Profile profile = await db.Profiles.Include("Files").SingleOrDefaultAsync(p => p.ProfileId == id);
             if (profile == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.UserId = User.Identity.GetUserId();
             return View(profile);
         }
 
@@ -52,6 +59,9 @@ namespace ConnectR.Controllers
         [Authorize]
         public ActionResult Create()
         {
+            string userId = User.Identity.GetUserId();
+            if (db.Profiles.Any(p => p.UserId == userId))
+                return RedirectToAction("Index");
             return View();
         }
 
@@ -61,17 +71,56 @@ namespace ConnectR.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ProfileId,UserId,FirstName,LastName,Age,Country,City,School,Degree,Image")] Profile profile)
+        public async Task<ActionResult> Create([Bind(Include = "UserId,FirstName,LastName,Age,Country,City,School,Degree")] Profile profile, HttpPostedFileBase upload)
         {
-            if (ModelState.IsValid)
-            {
-                profile.UserId = User.Identity.GetUserId();
-                db.Profiles.Add(profile);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+            try {
+
+                if (ModelState.IsValid)
+                {
+                    File avatar;
+                    if (upload != null && upload.ContentLength > 0)
+                    {
+                        avatar = new File();
+                        avatar.FileName = System.IO.Path.GetFileName(upload.FileName);
+                        avatar.FileType = (short)FileType.Picture;
+                        avatar.ContentType = upload.ContentType;
+
+                        using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                        {
+                            avatar.Content = reader.ReadBytes(upload.ContentLength);
+                        }
+                        profile.Files = new List<File> { avatar };
+                    }
+                    else
+                        avatar = null;
+                    profile.UserId = User.Identity.GetUserId();
+                    db.Profiles.Add(profile);
+                    await db.SaveChangesAsync();
+                    if (avatar != null)
+                    {
+                        profile.UserImage = avatar.Id;
+                        await db.SaveChangesAsync();
+                    }
+                    return RedirectToAction("Index");
+                }
+
+                return View(profile);
             }
 
-            return View(profile);
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                                                validationError.PropertyName,
+                                                validationError.ErrorMessage);
+                    }
+                }
+
+                return View(profile);
+            }
         }
 
         // GET: Profiles/Edit/5
@@ -82,7 +131,8 @@ namespace ConnectR.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Profile profile = await db.Profiles.FindAsync(id);
+            //Profile profile = await db.Profiles.FindAsync(id);
+            Profile profile = await db.Profiles.Include("Files").SingleOrDefaultAsync(p => p.ProfileId == id);
             if (profile == null)
             {
                 return HttpNotFound();
@@ -96,14 +146,55 @@ namespace ConnectR.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> Edit([Bind(Include = "ProfileId,UserId,FirstName,LastName,Age,Country,City,School,Degree,Image")] Profile profile)
+        public async Task<ActionResult> Edit([Bind(Include = "UserId,ProfileId,FirstName,LastName,Age,Country,City,School,Degree,About")] Profile profile, HttpPostedFileBase upload)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(profile).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    if (upload != null && upload.ContentLength > 0)
+                    {
+                        if (profile.UserImage > 0)
+                        {
+                            db.Files.Remove(profile.Files.First(f => f.Id == profile.UserImage));
+                        }
+                        var avatar = new File
+                        {
+                            FileName = System.IO.Path.GetFileName(upload.FileName),
+                            FileType = (short)FileType.Picture,
+                            ContentType = upload.ContentType
+                        };
+                        using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                        {
+                            avatar.Content = reader.ReadBytes(upload.ContentLength);
+                        }
+                        profile.Files.Add(avatar);
+                        await db.SaveChangesAsync();
+                        profile.UserImage = avatar.Id;
+                        await db.SaveChangesAsync();
+                    }
+
+                    db.Entry(profile).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             }
+
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                                                validationError.PropertyName,
+                                                validationError.ErrorMessage);
+                    }
+                }
+
+                return View(profile);
+            }
+
             return View(profile);
         }
 
@@ -130,6 +221,11 @@ namespace ConnectR.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Profile profile = await db.Profiles.FindAsync(id);
+            List<File> fileList = (from f in db.Files where f.ProfileId == profile.ProfileId select f).ToList<File>();
+            foreach(File f in fileList)
+            {
+                db.Files.Remove(f);
+            }
             db.Profiles.Remove(profile);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

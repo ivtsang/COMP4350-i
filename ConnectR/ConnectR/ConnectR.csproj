@@ -34,6 +34,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -209,8 +211,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConferenceController.cs" />
+    <Compile Include="Controllers\ConversationController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -220,6 +225,7 @@
     <Compile Include="Models\Conference.cs">
       <DependentUpon>ConnectRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConferenceModel.cs" />
     <Compile Include="Models\ConnectRModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -235,12 +241,31 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ConnectRModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Conversation.cs">
+      <DependentUpon>ConnectRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\File.cs">
+      <DependentUpon>ConnectRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileModel.cs" />
+    <Compile Include="Models\FileType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Message.cs">
+      <DependentUpon>ConnectRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Participant.cs">
+      <DependentUpon>ConnectRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Profile.cs">
       <DependentUpon>ConnectRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ConferenceRepository.cs" />
+    <Compile Include="Repositories\ProfileRepository.cs" />
+    <Compile Include="ServiceControllers\ConferencesServiceController.cs" />
+    <Compile Include="ServiceControllers\ProfilesServiceController.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -255,6 +280,7 @@
       <DependentUpon>ConnectRModel.edmx</DependentUpon>
       <LastGenOutput>ConnectRModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\ConnectRModel.edmx.sql" />
     <Content Include="Models\ConnectRModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ConnectRModel.edmx</DependentUpon>
@@ -274,6 +300,7 @@
     <Content Include="Models\ConnectRModel.edmx.diagram">
       <DependentUpon>ConnectRModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\ConnectR.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -300,7 +327,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -327,16 +353,22 @@
     <Content Include="Views\Conference\Details.cshtml" />
     <Content Include="Views\Conference\Edit.cshtml" />
     <Content Include="Views\Conference\Index.cshtml" />
-    <Content Include="Views\Home\Conference.cshtml" />
     <Content Include="Views\Profiles\Create.cshtml" />
     <Content Include="Views\Profiles\Delete.cshtml" />
     <Content Include="Views\Profiles\Details.cshtml" />
     <Content Include="Views\Profiles\Edit.cshtml" />
     <Content Include="Views\Profiles\Index.cshtml" />
     <Content Include="Views\Home\Profiles.cshtml" />
+    <Content Include="Views\Conversation\Create.cshtml" />
+    <Content Include="Views\Conversation\Delete.cshtml" />
+    <Content Include="Views\Conversation\Details.cshtml" />
+    <Content Include="Views\Conversation\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Conversation.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Message.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\File\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -363,7 +395,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49950</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

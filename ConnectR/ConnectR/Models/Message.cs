@@ -14,13 +14,12 @@ namespace ConnectR.Models
     
     public partial class Message
     {
-        public int msg_id { get; set; }
-        public int conv_id { get; set; }
-        public int user_id { get; set; }
-        public System.DateTime msg_date { get; set; }
-        public string msg_txt { get; set; }
+        public int MessageId { get; set; }
+        public int ConversationId { get; set; }
+        public string SenderName { get; set; }
+        public System.DateTime Date { get; set; }
+        public string Text { get; set; }
     
         public virtual Conversation Conversation { get; set; }
-        public virtual User User { get; set; }
     }
 }

@@ -18,6 +18,8 @@ namespace ConnectR.Models
         public Profile()
         {
             this.Conferences = new HashSet<Conference>();
+            this.Files = new HashSet<File>();
+            this.Participants = new HashSet<Participant>();
         }
     
         public int ProfileId { get; set; }
@@ -29,9 +31,14 @@ namespace ConnectR.Models
         public string City { get; set; }
         public string School { get; set; }
         public string Degree { get; set; }
-        public byte[] Image { get; set; }
+        public Nullable<int> UserImage { get; set; }
+        public string About { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Conference> Conferences { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<File> Files { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Participant> Participants { get; set; }
     }
 }

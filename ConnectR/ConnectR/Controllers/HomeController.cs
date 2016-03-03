@@ -15,16 +15,7 @@ namespace ConnectR.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
-        }
-
-        public ActionResult Conference()
-        {
-            ViewBag.Message = "Upcoming conferences";
-
-            return RedirectToAction("Index", "Conference");
         }
     }
 }

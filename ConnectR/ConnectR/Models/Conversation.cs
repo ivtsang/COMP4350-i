@@ -18,14 +18,14 @@ namespace ConnectR.Models
         public Conversation()
         {
             this.Messages = new HashSet<Message>();
-            this.Users = new HashSet<User>();
+            this.Participants = new HashSet<Participant>();
         }
     
-        public int conv_id { get; set; }
+        public int ConversationId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Message> Messages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Participant> Participants { get; set; }
     }
 }

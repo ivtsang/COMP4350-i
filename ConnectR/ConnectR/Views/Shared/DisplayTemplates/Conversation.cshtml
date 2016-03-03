@@ -1,9 +1,5 @@
 ﻿@model ConnectR.Models.Conversation
-
-<tr> <th> @Html.DisplayFor(x => Model.conv_id) </th> </tr>
 @foreach (var messages in Model.Messages)
 {
-    <tr> <td></td>
     @Html.DisplayFor(Model => messages)
-    </tr>
 }
