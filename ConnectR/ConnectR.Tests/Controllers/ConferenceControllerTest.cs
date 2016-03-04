@@ -20,7 +20,7 @@ namespace ConnectR.Tests.Controllers
 
             ConferenceModel conference = new ConferenceModel
             {
-                ProfileId = 13,
+                ProfileId = 1,
                 Location = "TestLocation",
                 Date = new DateTime(2016, 1, 1),
                 Content = "TestContet",
