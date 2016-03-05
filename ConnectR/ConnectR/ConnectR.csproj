@@ -262,6 +262,7 @@
     </Compile>
     <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider\ApplicationOAuthProvider.cs" />
     <Compile Include="Repositories\ConferenceRepository.cs" />
     <Compile Include="Repositories\ProfileRepository.cs" />
     <Compile Include="ServiceControllers\ConferencesServiceController.cs" />
