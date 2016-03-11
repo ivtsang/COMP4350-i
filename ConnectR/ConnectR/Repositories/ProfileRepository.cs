@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ConnectR.Models;
+using System.Data.Entity;
 
 namespace ConnectR.Repositories
 {
@@ -10,14 +11,69 @@ namespace ConnectR.Repositories
     {
         private Entities db = new Entities();
 
+        public IEnumerable<ProfileModel> GetProfiles()
+        {
+            List<ProfileModel> profiles = new List<ProfileModel>();
+            foreach (var p in db.Profiles)
+            {
+                profiles.Add(ConvertToModel(p));
+            }
+            return profiles;
+        }
+
+        public ProfileModel GetProfileById(int id)
+        {
+            Profile p = db.Profiles.Include("Files").SingleOrDefault(e => e.ProfileId == id);
+            return ConvertToModel(p);
+        }
+
+        public void SaveProfile(Profile profile)
+        {
+            db.Profiles.Add(profile);
+            db.SaveChanges();
+            profile.UserImage = profile.Files.SingleOrDefault<File>().Id;
+            db.SaveChanges();
+        }
+
+        public void UpdateProfile(Profile profile)
+        {
+            File newImg;
+            if (profile.UserImage > 0)
+            {
+                db.Files.Remove(profile.Files.First(f => f.Id == profile.UserImage));
+            }
+            newImg = profile.Files.FirstOrDefault();
+            newImg.ProfileId = profile.ProfileId;
+            db.Files.Add(newImg);
+            db.SaveChanges();
+            profile.UserImage = newImg.Id;
+            db.Entry(profile).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void DeleteProfile(int id)
+        {
+            Profile profile = db.Profiles.Find(id);
+            List<File> fileList = (from f in db.Files where f.ProfileId == profile.ProfileId select f).ToList<File>();
+            foreach (File f in fileList)
+            {
+                db.Files.Remove(f);
+            }
+            db.Profiles.Remove(profile);
+            db.SaveChanges();
+        }
+
         public ProfileModel GetProfileByUserId(string userId)
         {
             var query = from p in db.Profiles
                         where p.UserId == userId
                         select p;
-            Profile profile = query.ToList().First();
+            Profile profile = query.ToList().SingleOrDefault();
 
-            return ConvertToModel(profile);
+            if (profile != null)
+                return ConvertToModel(profile);
+            else
+                return null;
         }
 
         public ProfileModel ConvertToModel(Profile profile)
@@ -32,7 +88,9 @@ namespace ConnectR.Repositories
                 Degree = profile.Degree,
                 City = profile.City,
                 Country = profile.Country,
-                School = profile.School
+                School = profile.School,
+                UserImage = profile.UserImage,
+                About = profile.About,
             };
 
             return profileM;

@@ -32,7 +32,7 @@ namespace ConnectR.Models
         public string School { get; set; }
         [Required]
         public string Degree { get; set; }
-        public int ImageFileId { get; set; }
+        public Nullable<int>  UserImage { get; set; }
         [MaxLength]
         public string About { get; set; }
 

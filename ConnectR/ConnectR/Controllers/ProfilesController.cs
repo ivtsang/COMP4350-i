@@ -12,12 +12,16 @@ using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Web.Configuration;
 
 namespace ConnectR.Controllers
 {
     public class ProfilesController : Controller
     {
         private Entities db = new Entities();
+        private string baseUri = WebConfigurationManager.AppSettings["ServiceUrl"] + "ProfilesService";
 
         protected override void Initialize(RequestContext requestContext)
         {
@@ -36,7 +40,18 @@ namespace ConnectR.Controllers
         public async Task<ActionResult> Index()
         {
             ViewBag.UserId = User.Identity.GetUserId();
-            return View(await db.Profiles.ToListAsync());
+
+            List<ProfileModel> profiles;
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+
+                profiles = JsonConvert.DeserializeObject<List<ProfileModel>>(
+                    await httpClient.GetStringAsync(baseUri)
+                );
+            }
+
+            return View(profiles);
         }
 
         // GET: Profiles/Details/5
@@ -46,7 +61,17 @@ namespace ConnectR.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Profile profile = await db.Profiles.Include("Files").SingleOrDefaultAsync(p => p.ProfileId == id);
+
+            ProfileModel profile;
+            string profileId = id.ToString();
+            string uri = baseUri + "/GetProfile/" + profileId;
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                profile = JsonConvert.DeserializeObject<ProfileModel>(
+                    await httpClient.GetStringAsync(uri)
+                );
+            }
             if (profile == null)
             {
                 return HttpNotFound();
@@ -57,12 +82,13 @@ namespace ConnectR.Controllers
 
         // GET: Profiles/Create
         [Authorize]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            string userId = User.Identity.GetUserId();
-            if (db.Profiles.Any(p => p.UserId == userId))
+            int profileId = await GetCurrentProfileId();
+            if(profileId != 0)
                 return RedirectToAction("Index");
-            return View();
+            Profile profile = new Profile { UserId = User.Identity.GetUserId() };
+            return View(profile);
         }
 
         // POST: Profiles/Create
@@ -73,53 +99,33 @@ namespace ConnectR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "UserId,FirstName,LastName,Age,Country,City,School,Degree")] Profile profile, HttpPostedFileBase upload)
         {
-            try {
+            File avatar;
+            if (upload != null && upload.ContentLength > 0)
+            {
+                avatar = new File();
+                avatar.FileName = System.IO.Path.GetFileName(upload.FileName);
+                avatar.FileType = (short)FileType.Picture;
+                avatar.ContentType = upload.ContentType;
 
-                if (ModelState.IsValid)
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
                 {
-                    File avatar;
-                    if (upload != null && upload.ContentLength > 0)
-                    {
-                        avatar = new File();
-                        avatar.FileName = System.IO.Path.GetFileName(upload.FileName);
-                        avatar.FileType = (short)FileType.Picture;
-                        avatar.ContentType = upload.ContentType;
-
-                        using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                        {
-                            avatar.Content = reader.ReadBytes(upload.ContentLength);
-                        }
-                        profile.Files = new List<File> { avatar };
-                    }
-                    else
-                        avatar = null;
-                    profile.UserId = User.Identity.GetUserId();
-                    db.Profiles.Add(profile);
-                    await db.SaveChangesAsync();
-                    if (avatar != null)
-                    {
-                        profile.UserImage = avatar.Id;
-                        await db.SaveChangesAsync();
-                    }
+                    avatar.Content = reader.ReadBytes(upload.ContentLength);
+                }
+                profile.Files = new List<File> { avatar };
+            }
+            else
+                avatar = null;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                var result = await httpClient.PostAsJsonAsync<Profile>(baseUri, profile);
+                if (result.IsSuccessStatusCode)
+                {
                     return RedirectToAction("Index");
                 }
-
-                return View(profile);
-            }
-
-            catch (DbEntityValidationException dbEx)
-            {
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                else
                 {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Trace.TraceInformation("Property: {0} Error: {1}",
-                                                validationError.PropertyName,
-                                                validationError.ErrorMessage);
-                    }
+                    return View("Error");
                 }
-
-                return View(profile);
             }
         }
 
@@ -131,8 +137,17 @@ namespace ConnectR.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //Profile profile = await db.Profiles.FindAsync(id);
-            Profile profile = await db.Profiles.Include("Files").SingleOrDefaultAsync(p => p.ProfileId == id);
+
+            ProfileModel profile;
+            string profileId = id.ToString();
+            string uri = baseUri + "/GetProfile/" + profileId;
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                profile = JsonConvert.DeserializeObject<ProfileModel>(
+                    await httpClient.GetStringAsync(uri)
+                );
+            }
             if (profile == null)
             {
                 return HttpNotFound();
@@ -148,54 +163,34 @@ namespace ConnectR.Controllers
         [Authorize]
         public async Task<ActionResult> Edit([Bind(Include = "UserId,ProfileId,FirstName,LastName,Age,Country,City,School,Degree,About")] Profile profile, HttpPostedFileBase upload)
         {
-            try
+            File avatar;
+            if (upload != null && upload.ContentLength > 0)
             {
-                if (ModelState.IsValid)
-                {
-                    if (upload != null && upload.ContentLength > 0)
-                    {
-                        if (profile.UserImage > 0)
-                        {
-                            db.Files.Remove(profile.Files.First(f => f.Id == profile.UserImage));
-                        }
-                        var avatar = new File
-                        {
-                            FileName = System.IO.Path.GetFileName(upload.FileName),
-                            FileType = (short)FileType.Picture,
-                            ContentType = upload.ContentType
-                        };
-                        using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                        {
-                            avatar.Content = reader.ReadBytes(upload.ContentLength);
-                        }
-                        profile.Files.Add(avatar);
-                        await db.SaveChangesAsync();
-                        profile.UserImage = avatar.Id;
-                        await db.SaveChangesAsync();
-                    }
+                avatar = new File();
+                avatar.FileName = System.IO.Path.GetFileName(upload.FileName);
+                avatar.FileType = (short)FileType.Picture;
+                avatar.ContentType = upload.ContentType;
 
-                    db.Entry(profile).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    avatar.Content = reader.ReadBytes(upload.ContentLength);
+                }
+                profile.Files = new List<File> { avatar };
+            }
+            else
+                avatar = null;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                var result = await httpClient.PutAsJsonAsync<Profile>(baseUri, profile);
+                if (result.IsSuccessStatusCode)
+                {
                     return RedirectToAction("Index");
                 }
-            }
-
-            catch (DbEntityValidationException dbEx)
-            {
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                else
                 {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Trace.TraceInformation("Property: {0} Error: {1}",
-                                                validationError.PropertyName,
-                                                validationError.ErrorMessage);
-                    }
+                    return View("Error");
                 }
-
-                return View(profile);
             }
-
-            return View(profile);
         }
 
         // GET: Profiles/Delete/5
@@ -206,7 +201,16 @@ namespace ConnectR.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Profile profile = await db.Profiles.FindAsync(id);
+            ProfileModel profile;
+            string profileId = id.ToString();
+            string uri = baseUri + "/GetProfile/" + profileId;
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                profile = JsonConvert.DeserializeObject<ProfileModel>(
+                    await httpClient.GetStringAsync(uri)
+                );
+            }
             if (profile == null)
             {
                 return HttpNotFound();
@@ -220,15 +224,41 @@ namespace ConnectR.Controllers
         [Authorize]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Profile profile = await db.Profiles.FindAsync(id);
-            List<File> fileList = (from f in db.Files where f.ProfileId == profile.ProfileId select f).ToList<File>();
-            foreach(File f in fileList)
+            string uri = baseUri + "/" + id;
+            using (HttpClient httpClient = new HttpClient())
             {
-                db.Files.Remove(f);
+                var result = await httpClient.DeleteAsync(uri);
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View("Error");
+                }
             }
-            db.Profiles.Remove(profile);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+        }
+
+        public async Task<int> GetCurrentProfileId()
+        {
+            string userId = User.Identity.GetUserId();
+            if (userId != null)
+            {
+                string uri = WebConfigurationManager.AppSettings["ServiceUrl"] + "ProfilesService/GetProfileByUserId/" + userId;
+                ProfileModel profile;
+
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    profile = JsonConvert.DeserializeObject<ProfileModel>(
+                        await httpClient.GetStringAsync(uri)
+                    );
+                }
+                if (profile == null)
+                    return 0;
+                return profile.ProfileId;
+            }
+
+            return 0;
         }
 
         protected override void Dispose(bool disposing)

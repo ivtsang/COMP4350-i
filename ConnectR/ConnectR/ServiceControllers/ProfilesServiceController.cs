@@ -17,13 +17,13 @@ namespace ConnectR.ServiceControllers
         // GET: api/ProfilesService
         public IEnumerable<ProfileModel> GetProfiles()
         {
-            return null;
+            return repo.GetProfiles();
         }
 
         // GET: api/ProfilesService/5
         public ProfileModel GetProfile(int id)
         {
-            return null;
+            return repo.GetProfileById(id);
         }
 
         // GET: api/ProfilesService/GetProfileByUserId/userId
@@ -34,18 +34,21 @@ namespace ConnectR.ServiceControllers
         }
 
         // PUT: api/ProfilesService/5
-        public void PutProfile(ProfileModel Profile)
+        public void PutProfile(Profile profile)
         {
+            repo.UpdateProfile(profile);
         }
 
         // POST: api/ProfilesService
-        public void PostProfile(ProfileModel Profile)
+        public void PostProfile(Profile profile)
         {
+            repo.SaveProfile(profile);
         }
 
         // DELETE: api/ProfilesService/5
         public void DeleteProfile(int id)
         {
+            repo.DeleteProfile(id);
         }
 
         protected override void Dispose(bool disposing)

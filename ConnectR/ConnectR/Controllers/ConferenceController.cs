@@ -13,13 +13,14 @@ using System.IO;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 
 namespace ConnectR.Controllers
 {
     public class ConferenceController : Controller
     {
         private Entities db = new Entities();
-        private string baseUri = "http://ec2-52-37-0-160.us-west-2.compute.amazonaws.com/api/ConferencesService";
+        private string baseUri = WebConfigurationManager.AppSettings["ServiceUrl"] + "ConferencesService";
 
         // GET: Conference
         public async Task<ActionResult> Index()
@@ -180,7 +181,7 @@ namespace ConnectR.Controllers
             string userId = User.Identity.GetUserId();
             if(userId != null)
             {
-                string uri = "http://ec2-52-37-0-160.us-west-2.compute.amazonaws.com/api/ProfilesService/GetProfileByUserId/" + userId;
+                string uri = WebConfigurationManager.AppSettings["ServiceUrl"] + "ProfilesService / GetProfileByUserId/" + userId;
                 ProfileModel profile;
 
                 using (HttpClient httpClient = new HttpClient())
