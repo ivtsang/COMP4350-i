@@ -181,7 +181,7 @@ namespace ConnectR.Controllers
             string userId = User.Identity.GetUserId();
             if(userId != null)
             {
-                string uri = WebConfigurationManager.AppSettings["ServiceUrl"] + "ProfilesService / GetProfileByUserId/" + userId;
+                string uri = WebConfigurationManager.AppSettings["ServiceUrl"] + "ProfilesService/GetProfileByUserId/" + userId;
                 ProfileModel profile;
 
                 using (HttpClient httpClient = new HttpClient())
