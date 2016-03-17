@@ -27,12 +27,16 @@ namespace ConnectR.Repositories
             return ConvertToModel(p);
         }
 
-        public void SaveProfile(Profile profile)
+        public Profile SaveProfile(Profile profile)
         {
-            db.Profiles.Add(profile);
+            Profile newProfile = db.Profiles.Add(profile);
             db.SaveChanges();
-            profile.UserImage = profile.Files.SingleOrDefault<File>().Id;
-            db.SaveChanges();
+            if(profile.Files.SingleOrDefault<File>() != null)
+            {
+                profile.UserImage = profile.Files.SingleOrDefault<File>().Id;
+                db.SaveChanges();
+            }
+            return newProfile;
         }
 
         public void UpdateProfile(Profile profile)
@@ -43,10 +47,13 @@ namespace ConnectR.Repositories
                 db.Files.Remove(profile.Files.First(f => f.Id == profile.UserImage));
             }
             newImg = profile.Files.FirstOrDefault();
-            newImg.ProfileId = profile.ProfileId;
-            db.Files.Add(newImg);
-            db.SaveChanges();
-            profile.UserImage = newImg.Id;
+            if(newImg != null)
+            {
+                newImg.ProfileId = profile.ProfileId;
+                db.Files.Add(newImg);
+                db.SaveChanges();
+                profile.UserImage = newImg.Id;
+            }
             db.Entry(profile).State = EntityState.Modified;
             db.SaveChanges();
         }

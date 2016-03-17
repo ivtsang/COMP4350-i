@@ -15,6 +15,9 @@ using System.Diagnostics;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Web.Configuration;
+using ConnectR.Repositories;
+using Microsoft.AspNet.Identity.Owin;
+using System.Web.Security;
 
 namespace ConnectR.Controllers
 {
@@ -59,7 +62,7 @@ namespace ConnectR.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                id = await GetCurrentProfileId();
             }
 
             ProfileModel profile;
@@ -84,11 +87,15 @@ namespace ConnectR.Controllers
         [Authorize]
         public async Task<ActionResult> Create()
         {
-            int profileId = await GetCurrentProfileId();
-            if(profileId != 0)
-                return RedirectToAction("Index");
-            Profile profile = new Profile { UserId = User.Identity.GetUserId() };
-            return View(profile);
+            string userId = User.Identity.GetUserId();
+            ProfileRepository repo = new ProfileRepository();
+            Profile newProfile = new Profile
+            {
+                UserId = User.Identity.GetUserId()
+            };
+            newProfile = repo.SaveProfile(newProfile);
+            //Profile profile = new Profile { UserId = User.Identity.GetUserId() };
+            return View(newProfile);
         }
 
         // POST: Profiles/Create
@@ -230,7 +237,11 @@ namespace ConnectR.Controllers
                 var result = await httpClient.DeleteAsync(uri);
                 if (result.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("Index");
+                    var manager = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    var currentUser = manager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                    await manager.DeleteAsync(currentUser);
+                    HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {

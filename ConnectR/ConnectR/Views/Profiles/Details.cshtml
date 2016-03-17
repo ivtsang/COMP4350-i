@@ -87,7 +87,8 @@
 {
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.ProfileId }) |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to List", "Index") |
+        @Html.ActionLink("Permanently delete your account", "Delete", new { id = Model.ProfileId })
     </p>
 }
 @if (Model.UserId != ViewBag.UserId)
