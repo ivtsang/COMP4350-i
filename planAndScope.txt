@@ -51,7 +51,7 @@ As a prof/student, I want to message other users and reference things on their p
 
 As a prof/student, I want to see quick feeds of activity from profiles
 	Live Activity of whom I'm following
-	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
+	Display the live activity of otherâ€™s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
 	Priority: Medium | Cost: 3 days
 
 As a prof/student, I want to group profiles together or create groups of profiles for discussions and feeds
@@ -114,12 +114,12 @@ Assuming everyone puts in 2 days worth of time over 2 weeks,
 	Priority: High | Cost: 3 Days (2 for back-end) 
 	
 	Live Activity of whom I'm following
-	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
+	Display the live activity of otherâ€™s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
 	Priority: Medium | Cost: 3 days (2 for back-end)
     	
 	Total cost: 12 days
 
-etailed stories for iter2: (front-end)
+Detailed stories for iter2: (front-end)
 
         Messaging
 	Send and receive messages to and from other prof/students.
@@ -135,7 +135,7 @@ etailed stories for iter2: (front-end)
 	Priority: High | Cost: 3 Days (2 for back-end) 
 	
 	Live Activity of whom I'm following
-	Display the live activity of other�s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
+	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
 	Priority: Medium | Cost: 3 days (2 for back-end)
 
 Mobile + testing, iter3:
@@ -150,7 +150,7 @@ Mobile + testing, iter3:
 	Priority: High | Cost: 3 Days (2 for back-end) 
 	
 	Live Activity of whom I'm following
-	Display the live activity of other�s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
+	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
 	Priority: Medium | Cost: 3 days (2 for back-end)
 
 
@@ -161,6 +161,6 @@ Cl + load test + deliver, iter4:
 	Priority: High | Cost: 3 Days (2 for back-end) 
 	
 	Live Activity of whom I'm following
-	Display the live activity of other�s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
+	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
 	Priority: Medium | Cost: 3 days (2 for back-end)
 
