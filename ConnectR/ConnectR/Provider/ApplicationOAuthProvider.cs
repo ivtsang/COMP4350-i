@@ -56,7 +56,7 @@ namespace ConnectR.Providers
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
-
+            context.AdditionalResponseParameters.Add("userid", context.Identity.GetUserId());
             return Task.FromResult<object>(null);
         }
 
