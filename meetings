@@ -8,3 +8,10 @@ Jan 19
   Since there are 6 in the group, 2 people have to do an additional one
     Daniel volunteered
     We volunteered Lukas
+    
+March 18
+  Discussed what's important to finish for this iteration and split up the tasks as follows.  
+  Nich - create more unit and selenium tests for the website.
+  Regina - create unit and robotium tests for the android app.
+  Lukas and Ahmed - Develop android app, create pages for profiles and conferences.
+  Daniel - Update login service and create documentation for the web api.
