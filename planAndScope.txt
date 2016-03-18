@@ -119,8 +119,48 @@ Assuming everyone puts in 2 days worth of time over 2 weeks,
     	
 	Total cost: 12 days
 
-Detailed stories for iter2: (front-end)
+etailed stories for iter2: (front-end)
+
+        Messaging
+	Send and receive messages to and from other prof/students.
+	Priority: High | Cost: 3 Days (2 for back-end)
+	
+	Delaying to iter3:
+	
+	Limit search by criteria such as interests, institution, education/certifications
+        Priority: High | Cost: 2 days (1 for back-end)
+        
+        Filter System
+	Create and save filters based on parameters such as username, location, field, etc.
+	Priority: High | Cost: 3 Days (2 for back-end) 
+	
+	Live Activity of whom I'm following
+	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
+	Priority: Medium | Cost: 3 days (2 for back-end)
 
 Mobile + testing, iter3:
 
+	Limit search by criteria such as interests, institution, education/certifications
+        Priority: High | Cost: 2 days (1 for back-end)
+        
+        Due to the need for testing and the Androide App the following has been pushed back to Iteration 4:
+        
+        Filter System
+	Create and save filters based on parameters such as username, location, field, etc.
+	Priority: High | Cost: 3 Days (2 for back-end) 
+	
+	Live Activity of whom I'm following
+	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
+	Priority: Medium | Cost: 3 days (2 for back-end)
+
+
 Cl + load test + deliver, iter4:
+
+        Filter System
+	Create and save filters based on parameters such as username, location, field, etc.
+	Priority: High | Cost: 3 Days (2 for back-end) 
+	
+	Live Activity of whom I'm following
+	Display the live activity of other’s (prof / student) whom I want to follow. An example of activity would be a professor whom I am following just shared a conference news or there is a vacant position in his lab. 
+	Priority: Medium | Cost: 3 days (2 for back-end)
+
