@@ -11,9 +11,9 @@ using TestSelenium.Tests;
 namespace SeleniumTests
 {
     [TestClass]
-    public class ConferenceTest : SeleniumTest
+    public class ConferenceSeleniumTest : SeleniumTest
     {
-        public ConferenceTest() : base("ConnectR") { }
+        public ConferenceSeleniumTest() : base("ConnectR") { }
 
         private IWebDriver driver;
         private StringBuilder verificationErrors;

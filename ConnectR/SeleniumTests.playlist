@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="SeleniumTests.ProfileSeleniumTest.TheProfileTest" /><Add Test="SeleniumTests.ConferenceSeleniumTest.TheConferenceTest" /><Add Test="SeleniumTests.ConversationSeleniumTest.TheConversationAddDeleteSeleniumTest" /><Add Test="SeleniumTests.ConversationSeleniumTest.TheConversationMessagingSeleniumTest" /></Playlist>
