@@ -33,11 +33,19 @@ namespace ConnectR.Repositories
             db.SaveChanges();
         }
 
-        public void DeleteConference(int id)
+        public int DeleteConference(int id)
         {
-            Conference conference = db.Conferences.Find(id);
-            db.Conferences.Remove(conference);
-            db.SaveChangesAsync();
+            try
+            {
+                Conference conference = db.Conferences.Find(id);
+                db.Conferences.Remove(conference);
+                db.SaveChanges();
+                return 1;
+            }
+            catch
+            {
+                return -1;
+            }
         }
 
         public void UpdateConference(ConferenceModel conference)
@@ -49,13 +57,13 @@ namespace ConnectR.Repositories
         }
 
 
-        public IEnumerable<Conference> SearchConference(ConferenceModel conference)
+        public List<Conference> SearchConference(ConferenceModel conference)
         {
-            IEnumerable<Conference> result = from c in db.Conferences
+            List<Conference> result = (from c in db.Conferences.AsNoTracking()
                                              where (conference.Title != null && c.Title == conference.Title)
                                              where (conference.Location != null && c.Location == conference.Location)
                                              where (conference.Date != null && c.Date == conference.Date)
-                                             select c;
+                                             select c).ToList();
 
             return result;
         }

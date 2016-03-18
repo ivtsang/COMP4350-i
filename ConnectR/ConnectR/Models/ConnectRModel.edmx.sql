@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/26/2016 20:53:34
+-- Date Created: 03/04/2016 16:32:37
 -- Generated from EDMX file: C:\Users\Daniel\Documents\GitHub\COMP4350-i\ConnectR\ConnectR\Models\ConnectRModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [ConnectR-Entities];
+USE [ConnectR];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -25,9 +25,6 @@ IF OBJECT_ID(N'[dbo].[FK_FileProfile]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_Message_Conversation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_Message_Conversation];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Message_ToTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_Message_ToTable];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Participant_Conversation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Participants] DROP CONSTRAINT [FK_Participant_Conversation];
@@ -65,7 +62,7 @@ GO
 
 -- Creating table 'Conferences'
 CREATE TABLE [dbo].[Conferences] (
-    [ConferenceId] int  NOT NULL,
+    [ConferenceId] int IDENTITY(1,1) NOT NULL,
     [ProfileId] int  NOT NULL,
     [Content] nvarchar(max)  NULL,
     [Image] binary(2048)  NULL,
@@ -77,7 +74,7 @@ GO
 
 -- Creating table 'Conversations'
 CREATE TABLE [dbo].[Conversations] (
-    [ConversationId] int  NOT NULL
+    [ConversationId] int IDENTITY(1,1) NOT NULL
 );
 GO
 
@@ -94,9 +91,9 @@ GO
 
 -- Creating table 'Messages'
 CREATE TABLE [dbo].[Messages] (
-    [MessageId] int  NOT NULL,
+    [MessageId] int IDENTITY(1,1) NOT NULL,
     [ConversationId] int  NOT NULL,
-    [ProfileId] int  NOT NULL,
+    [SenderName] nvarchar(64)  NOT NULL,
     [Date] datetime  NOT NULL,
     [Text] nvarchar(max)  NULL
 );
@@ -227,21 +224,6 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_FileProfile'
 CREATE INDEX [IX_FK_FileProfile]
 ON [dbo].[Files]
-    ([ProfileId]);
-GO
-
--- Creating foreign key on [ProfileId] in table 'Messages'
-ALTER TABLE [dbo].[Messages]
-ADD CONSTRAINT [FK_Message_ToTable]
-    FOREIGN KEY ([ProfileId])
-    REFERENCES [dbo].[Profiles]
-        ([ProfileId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Message_ToTable'
-CREATE INDEX [IX_FK_Message_ToTable]
-ON [dbo].[Messages]
     ([ProfileId]);
 GO
 

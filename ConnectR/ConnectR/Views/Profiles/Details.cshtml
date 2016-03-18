@@ -1,4 +1,4 @@
-﻿@model ConnectR.Models.Profile
+﻿@model ConnectR.Models.ProfileModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,11 +11,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayFor(model => model.UserImage)
+            @Html.DisplayNameFor(model => model.UserImage)
         </dt>
 
         <dd>
-            <img src="@Url.Action("Index", "File", new { id = Model.UserImage})" />
+            <img src="@Url.Action("Index", "File", new { id = Model.UserImage})" class="ProfileImage"/>
         </dd>
 
         <dt>
@@ -87,7 +87,8 @@
 {
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.ProfileId }) |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to List", "Index") |
+        @Html.ActionLink("Permanently delete your account", "Delete", new { id = Model.ProfileId })
     </p>
 }
 @if (Model.UserId != ViewBag.UserId)

@@ -4,159 +4,159 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Conferences">
-          <Key>
-            <PropertyRef Name="ConferenceId" />
-          </Key>
-          <Property Name="ConferenceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProfileId" Type="int" Nullable="false" />
-          <Property Name="Content" Type="nvarchar(max)" />
-          <Property Name="Image" Type="binary" MaxLength="2048" />
-          <Property Name="Title" Type="nvarchar" MaxLength="50" />
-          <Property Name="Date" Type="datetime" />
-          <Property Name="Location" Type="nvarchar" MaxLength="150" />
-        </EntityType>
-        <EntityType Name="Conversations">
-          <Key>
-            <PropertyRef Name="ConversationId" />
-          </Key>
-          <Property Name="ConversationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Files">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProfileId" Type="int" Nullable="false" />
-          <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ContentType" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Content" Type="varbinary(max)" Nullable="false" />
-          <Property Name="FileType" Type="smallint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Messages">
-          <Key>
-            <PropertyRef Name="MessageId" />
-          </Key>
-          <Property Name="MessageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ConversationId" Type="int" Nullable="false" />
-          <Property Name="SenderName" Type="nvarchar" MaxLength="64" Nullable="false" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="Participants">
-          <Key>
-            <PropertyRef Name="ParticipantId" />
-          </Key>
-          <Property Name="ParticipantId" Type="int" Nullable="false" />
-          <Property Name="ConversationId" Type="int" Nullable="false" />
-          <Property Name="ProfileId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Profiles">
-          <Key>
-            <PropertyRef Name="ProfileId" />
-          </Key>
-          <Property Name="ProfileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Age" Type="int" />
-          <Property Name="Country" Type="nvarchar" MaxLength="50" />
-          <Property Name="City" Type="nvarchar" MaxLength="50" />
-          <Property Name="School" Type="nvarchar" MaxLength="50" />
-          <Property Name="Degree" Type="nvarchar" MaxLength="50" />
-          <Property Name="UserImage" Type="int" />
-          <Property Name="About" Type="nvarchar(max)" />
-        </EntityType>
-        <Association Name="FK_Conference_Profile">
-          <End Role="Profiles" Type="Self.Profiles" Multiplicity="1" />
-          <End Role="Conferences" Type="Self.Conferences" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profiles">
-              <PropertyRef Name="ProfileId" />
-            </Principal>
-            <Dependent Role="Conferences">
-              <PropertyRef Name="ProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FileProfile">
-          <End Role="Profiles" Type="Self.Profiles" Multiplicity="1" />
-          <End Role="Files" Type="Self.Files" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profiles">
-              <PropertyRef Name="ProfileId" />
-            </Principal>
-            <Dependent Role="Files">
-              <PropertyRef Name="ProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Message_Conversation">
-          <End Role="Conversations" Type="Self.Conversations" Multiplicity="1" />
-          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Conversations">
-              <PropertyRef Name="ConversationId" />
-            </Principal>
-            <Dependent Role="Messages">
-              <PropertyRef Name="ConversationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Participant_Conversation">
-          <End Role="Conversations" Type="Self.Conversations" Multiplicity="1" />
-          <End Role="Participants" Type="Self.Participants" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Conversations">
-              <PropertyRef Name="ConversationId" />
-            </Principal>
-            <Dependent Role="Participants">
-              <PropertyRef Name="ConversationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Participant_Profile">
-          <End Role="Profiles" Type="Self.Profiles" Multiplicity="1" />
-          <End Role="Participants" Type="Self.Participants" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profiles">
-              <PropertyRef Name="ProfileId" />
-            </Principal>
-            <Dependent Role="Participants">
-              <PropertyRef Name="ProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="ModelStoreContainer">
-          <EntitySet Name="Conferences" EntityType="Self.Conferences" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Conversations" EntityType="Self.Conversations" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Participants" EntityType="Self.Participants" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Conference_Profile" Association="Self.FK_Conference_Profile">
-            <End Role="Profiles" EntitySet="Profiles" />
-            <End Role="Conferences" EntitySet="Conferences" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FileProfile" Association="Self.FK_FileProfile">
-            <End Role="Profiles" EntitySet="Profiles" />
-            <End Role="Files" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Message_Conversation" Association="Self.FK_Message_Conversation">
-            <End Role="Conversations" EntitySet="Conversations" />
-            <End Role="Messages" EntitySet="Messages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Participant_Conversation" Association="Self.FK_Participant_Conversation">
-            <End Role="Conversations" EntitySet="Conversations" />
-            <End Role="Participants" EntitySet="Participants" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Participant_Profile" Association="Self.FK_Participant_Profile">
-            <End Role="Profiles" EntitySet="Profiles" />
-            <End Role="Participants" EntitySet="Participants" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="Conferences" EntityType="Model.Store.Conferences" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Conversations" EntityType="Model.Store.Conversations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Files" EntityType="Model.Store.Files" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Messages" EntityType="Model.Store.Messages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Participants" EntityType="Model.Store.Participants" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Profiles" EntityType="Model.Store.Profiles" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Conference_Profile" Association="Model.Store.FK_Conference_Profile">
+      <End Role="Profile" EntitySet="Profiles" />
+      <End Role="Conference" EntitySet="Conferences" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Message_Conversation" Association="Model.Store.FK_Message_Conversation">
+      <End Role="Conversation" EntitySet="Conversations" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Participant_Conversation" Association="Model.Store.FK_Participant_Conversation">
+      <End Role="Conversation" EntitySet="Conversations" />
+      <End Role="Participant" EntitySet="Participants" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileProfile" Association="Model.Store.FK_FileProfile">
+      <End Role="Profile" EntitySet="Profiles" />
+      <End Role="File" EntitySet="Files" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Participant_Profile" Association="Model.Store.FK_Participant_Profile">
+      <End Role="Profile" EntitySet="Profiles" />
+      <End Role="Participant" EntitySet="Participants" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Conferences">
+    <Key>
+      <PropertyRef Name="ConferenceId" />
+    </Key>
+    <Property Name="ConferenceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProfileId" Type="int" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Image" Type="binary" Nullable="true" MaxLength="2048" />
+    <Property Name="Title" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Date" Type="datetime" Nullable="true" />
+    <Property Name="Location" Type="nvarchar" Nullable="true" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="Conversations">
+    <Key>
+      <PropertyRef Name="ConversationId" />
+    </Key>
+    <Property Name="ConversationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Files">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProfileId" Type="int" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ContentType" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Content" Type="varbinary(max)" Nullable="false" />
+    <Property Name="FileType" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Messages">
+    <Key>
+      <PropertyRef Name="MessageId" />
+    </Key>
+    <Property Name="MessageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ConversationId" Type="int" Nullable="false" />
+    <Property Name="SenderName" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Participants">
+    <Key>
+      <PropertyRef Name="ParticipantId" />
+    </Key>
+    <Property Name="ParticipantId" Type="int" Nullable="false" />
+    <Property Name="ConversationId" Type="int" Nullable="false" />
+    <Property Name="ProfileId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Profiles">
+    <Key>
+      <PropertyRef Name="ProfileId" />
+    </Key>
+    <Property Name="ProfileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Age" Type="int" Nullable="true" />
+    <Property Name="Country" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="City" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="School" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Degree" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="UserImage" Type="int" Nullable="true" />
+    <Property Name="About" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <Association Name="FK_Conference_Profile">
+    <End Role="Profile" Type="Model.Store.Profiles" Multiplicity="1" />
+    <End Role="Conference" Type="Model.Store.Conferences" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileId" />
+      </Principal>
+      <Dependent Role="Conference">
+        <PropertyRef Name="ProfileId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Message_Conversation">
+    <End Role="Conversation" Type="Model.Store.Conversations" Multiplicity="1" />
+    <End Role="Message" Type="Model.Store.Messages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Conversation">
+        <PropertyRef Name="ConversationId" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="ConversationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Participant_Conversation">
+    <End Role="Conversation" Type="Model.Store.Conversations" Multiplicity="1" />
+    <End Role="Participant" Type="Model.Store.Participants" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Conversation">
+        <PropertyRef Name="ConversationId" />
+      </Principal>
+      <Dependent Role="Participant">
+        <PropertyRef Name="ConversationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileProfile">
+    <End Role="Profile" Type="Model.Store.Profiles" Multiplicity="1" />
+    <End Role="File" Type="Model.Store.Files" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileId" />
+      </Principal>
+      <Dependent Role="File">
+        <PropertyRef Name="ProfileId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Participant_Profile">
+    <End Role="Profile" Type="Model.Store.Profiles" Multiplicity="1" />
+    <End Role="Participant" Type="Model.Store.Participants" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileId" />
+      </Principal>
+      <Dependent Role="Participant">
+        <PropertyRef Name="ProfileId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -327,76 +327,76 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
-          <EntitySetMapping Name="Conferences">
-            <EntityTypeMapping TypeName="Model.Conference">
-              <MappingFragment StoreEntitySet="Conferences">
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="ConferenceId" ColumnName="ConferenceId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Conversations">
-            <EntityTypeMapping TypeName="Model.Conversation">
-              <MappingFragment StoreEntitySet="Conversations">
-                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Files">
-            <EntityTypeMapping TypeName="Model.File">
-              <MappingFragment StoreEntitySet="Files">
-                <ScalarProperty Name="FileType" ColumnName="FileType" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Messages">
-            <EntityTypeMapping TypeName="Model.Message">
-              <MappingFragment StoreEntitySet="Messages">
-                <ScalarProperty Name="Text" ColumnName="Text" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
-                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
-                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Participants">
-            <EntityTypeMapping TypeName="Model.Participant">
-              <MappingFragment StoreEntitySet="Participants">
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
-                <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Profiles">
-            <EntityTypeMapping TypeName="Model.Profile">
-              <MappingFragment StoreEntitySet="Profiles">
-                <ScalarProperty Name="About" ColumnName="About" />
-                <ScalarProperty Name="UserImage" ColumnName="UserImage" />
-                <ScalarProperty Name="Degree" ColumnName="Degree" />
-                <ScalarProperty Name="School" ColumnName="School" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
+    <EntitySetMapping Name="Conferences">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Conference)">
+        <MappingFragment StoreEntitySet="Conferences">
+          <ScalarProperty Name="ConferenceId" ColumnName="ConferenceId" />
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Conversations">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Conversation)">
+        <MappingFragment StoreEntitySet="Conversations">
+          <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Files">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.File)">
+        <MappingFragment StoreEntitySet="Files">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="FileType" ColumnName="FileType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Message)">
+        <MappingFragment StoreEntitySet="Messages">
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+          <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Participants">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Participant)">
+        <MappingFragment StoreEntitySet="Participants">
+          <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+          <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Profiles">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Profile)">
+        <MappingFragment StoreEntitySet="Profiles">
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="School" ColumnName="School" />
+          <ScalarProperty Name="Degree" ColumnName="Degree" />
+          <ScalarProperty Name="UserImage" ColumnName="UserImage" />
+          <ScalarProperty Name="About" ColumnName="About" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
