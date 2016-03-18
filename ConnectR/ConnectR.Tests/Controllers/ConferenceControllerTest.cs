@@ -13,11 +13,11 @@ namespace ConnectR.Tests.Controllers
     [TestClass]
     public class ConferenceControllerTest
     {
+        private ConferenceRepository repo = new ConferenceRepository();
+
         [TestMethod]
         public void Create()
         {
-            ConferenceRepository repo = new ConferenceRepository();
-
             ConferenceModel conference = new ConferenceModel
             {
                 ProfileId = 1,
@@ -36,8 +36,6 @@ namespace ConnectR.Tests.Controllers
         [TestMethod]
         public void Update()
         {
-            ConferenceRepository repo = new ConferenceRepository();
-
             Conference result = new Conference();
             ConferenceModel updated;
             DateTime newDate = new DateTime(2016, 2, 2);
@@ -76,8 +74,6 @@ namespace ConnectR.Tests.Controllers
         [TestMethod]
         public void Delete()
         {
-            ConferenceRepository repo = new ConferenceRepository();
-
             List<Conference> result = new List<Conference>();
 
             ConferenceModel conference = new ConferenceModel
@@ -94,6 +90,18 @@ namespace ConnectR.Tests.Controllers
             {
                 Assert.IsTrue(repo.DeleteConference(result.FirstOrDefault().ConferenceId) == 1);
             }
+        }
+
+        [TestMethod]
+        public void getAll()
+        {
+            Assert.IsTrue(repo.GetConferences().Count() > 0);
+        }
+
+        [TestMethod]
+        public void getById()
+        {
+            Assert.IsTrue(repo.GetConferenceById(1).ConferenceId == 1);
         }
     }
 }
