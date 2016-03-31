@@ -24,6 +24,7 @@ namespace ConnectR.Controllers
     public class ProfilesController : Controller
     {
         private Entities db = new Entities();
+        private ProfileRepository repo = new ProfileRepository();
         private string baseUri = WebConfigurationManager.AppSettings["ServiceUrl"] + "ProfilesService";
 
         protected override void Initialize(RequestContext requestContext)
@@ -42,7 +43,9 @@ namespace ConnectR.Controllers
         // GET: Profiles
         public async Task<ActionResult> Index()
         {
-            ViewBag.UserId = User.Identity.GetUserId();
+            //ViewBag.UserId = User.Identity.GetUserId();
+            int profileId = await GetCurrentProfileId();
+            ViewBag.ProfileId = profileId;
 
             List<ProfileModel> profiles;
 
@@ -52,6 +55,11 @@ namespace ConnectR.Controllers
                 profiles = JsonConvert.DeserializeObject<List<ProfileModel>>(
                     await httpClient.GetStringAsync(baseUri)
                 );
+            }
+
+            foreach(ProfileModel p in profiles)
+            {
+                repo.CheckIfFollowing(profileId, p);
             }
 
             return View(profiles);
@@ -248,6 +256,23 @@ namespace ConnectR.Controllers
                     return View("Error");
                 }
             }
+        }
+
+        public async Task<ActionResult> Follow(int followingId, bool follow)
+        {
+            int followerId = await GetCurrentProfileId();
+
+            if (follow)
+            {
+                repo.FollowProfile(followerId, followingId);
+            }
+            else
+            {
+                repo.UnfollowProfile(followerId, followingId);
+            }
+            
+
+            return RedirectToAction("Index");
         }
 
         public async Task<int> GetCurrentProfileId()

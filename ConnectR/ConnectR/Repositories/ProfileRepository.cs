@@ -70,6 +70,44 @@ namespace ConnectR.Repositories
             db.SaveChanges();
         }
 
+        public void CheckIfFollowing(int profileId, ProfileModel profile)
+        {
+            var result = (from f in db.Followers
+                          where f.FollowerId == profileId
+                          where f.FollowingId == profile.ProfileId
+                          select f).FirstOrDefault();
+
+            if(result != null)
+            {
+                profile.Followed = true;
+            }
+            else
+            {
+                profile.Followed = false;
+            }
+        }
+
+        public void UnfollowProfile(int followerId, int followingId)
+        {
+            var result = (from f in db.Followers
+                          where f.FollowerId == followerId
+                          where f.FollowingId == followingId
+                          select f).FirstOrDefault();
+            if(result != null)
+            {
+                db.Followers.Remove(result);
+                db.SaveChanges();
+            }
+            
+        }
+
+        public void FollowProfile(int followerId, int followingId)
+        {
+            Follower follower = new Follower { FollowerId = followerId, FollowingId = followingId };
+            db.Followers.Add(follower);
+            db.SaveChanges();
+        }
+
         public ProfileModel GetProfileByUserId(string userId)
         {
             var query = from p in db.Profiles

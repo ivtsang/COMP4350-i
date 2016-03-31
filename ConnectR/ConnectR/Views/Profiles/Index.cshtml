@@ -33,6 +33,7 @@
             @Html.DisplayNameFor(model => model.Degree)
         </th>
         <th></th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -60,6 +61,21 @@
         </td>
         <td>
             @Html.ActionLink("Details", "Details", new { id = item.ProfileId })
+        </td>
+        <td>
+            @if (ViewBag.ProfileId != 0 && ViewBag.ProfileId != item.ProfileId)
+            {
+                if (!item.Followed)
+                {
+                    @Html.ActionLink("Follow", "Follow", new { followingId = item.ProfileId , follow = true});
+                }
+                else
+                {
+                    @Html.ActionLink("Unfollow", "Follow", new { followingId = item.ProfileId, follow = false });
+                }
+            }
+            
+            
         </td>
     </tr>
 }

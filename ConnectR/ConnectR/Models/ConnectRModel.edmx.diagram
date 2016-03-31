@@ -16,6 +16,9 @@
         <AssociationConnector Association="Model.FK_Participant_Conversation" />
         <AssociationConnector Association="Model.FK_FileProfile" />
         <AssociationConnector Association="Model.FK_Participant_Profile" />
+        <EntityTypeShape EntityType="Model.Follower" Width="1.5" PointX="3" PointY="13.75" />
+        <AssociationConnector Association="Model.FK_Follower_ToProfile" />
+        <AssociationConnector Association="Model.FK_Following_ToProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
