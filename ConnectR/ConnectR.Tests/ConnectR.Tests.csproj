@@ -101,9 +101,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ConversationSeleniumTest.cs" />
+    <Compile Include="Controllers\ProfileControllerTest.cs" />
     <Compile Include="Controllers\ConferenceControllerTest.cs" />
-    <Compile Include="Controllers\ConferenceTest.cs" />
-    <Compile Include="Controllers\ProfileTest.cs" />
+    <Compile Include="Controllers\ConferenceSeleniumTest.cs" />
+    <Compile Include="Controllers\ProfileSeleniumTest.cs" />
     <Compile Include="Controllers\SeleniumTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />

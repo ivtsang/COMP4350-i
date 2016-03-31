@@ -11,9 +11,9 @@ using TestSelenium.Tests;
 namespace SeleniumTests
 {
     [TestClass]
-    public class ProfileTest : SeleniumTest
+    public class ConversationSeleniumTest : SeleniumTest
     {
-        public ProfileTest() : base("ConnectR") { }
+        public ConversationSeleniumTest() : base("ConnectR") { }
 
         private IWebDriver driver;
         private StringBuilder verificationErrors;
@@ -27,10 +27,17 @@ namespace SeleniumTests
             //WebDevServer.Start();
 
             driver = new FirefoxDriver();
+            baseURL = this.GetAbsoluteUrl(" / ");
             this.driver.Navigate().GoToUrl(this.GetAbsoluteUrl("/"));
-            baseURL = "http://localhost:49950/";
             //driver.Navigate().GoToUrl(@"localhost");
             verificationErrors = new StringBuilder();
+
+            driver.FindElement(By.Id("Email")).Clear();
+            driver.FindElement(By.Id("Email")).SendKeys("a@a.a");
+            driver.FindElement(By.Id("Password")).Clear();
+            driver.FindElement(By.Id("Password")).SendKeys("1!Asdf");
+            driver.FindElement(By.CssSelector("input.btn.btn-default")).Click();
+
         }
 
         [TestCleanup]
@@ -48,42 +55,29 @@ namespace SeleniumTests
         }
 
         [TestMethod]
-        public void TheProfileTest()
+        public void TheConversationMessagingSeleniumTest()
         {
-            driver.FindElement(By.Id("loginLink")).Click();
-            driver.FindElement(By.Id("Email")).Clear();
-            driver.FindElement(By.Id("Email")).SendKeys("test@a.a");
-            driver.FindElement(By.Id("Password")).Clear();
-            driver.FindElement(By.Id("Password")).SendKeys("1!Asdf");
+            driver.FindElement(By.LinkText("Message Users")).Click();
+            driver.FindElement(By.XPath("(//a[contains(text(),'JOIN IN ON THIS CONVERSATION')])[4]")).Click();
+            driver.FindElement(By.Name("Text")).Clear();
+            driver.FindElement(By.Name("Text")).SendKeys("I am slowly going crazy One, two, three, four, five, six, switch!");
             driver.FindElement(By.CssSelector("input.btn.btn-default")).Click();
-            driver.FindElement(By.LinkText("Profiles")).Click();
-            driver.FindElement(By.LinkText("Create New")).Click();
-            driver.FindElement(By.Id("FirstName")).Clear();
-            driver.FindElement(By.Id("FirstName")).SendKeys("test");
-            driver.FindElement(By.Id("LastName")).Clear();
-            driver.FindElement(By.Id("LastName")).SendKeys("test2");
-            driver.FindElement(By.Id("Age")).Clear();
-            driver.FindElement(By.Id("Age")).SendKeys("34");
-            driver.FindElement(By.Id("Country")).Clear();
-            driver.FindElement(By.Id("Country")).SendKeys("there");
-            driver.FindElement(By.Id("City")).Clear();
-            driver.FindElement(By.Id("City")).SendKeys("here");
-            driver.FindElement(By.Id("School")).Clear();
-            driver.FindElement(By.Id("School")).SendKeys("that one");
-            driver.FindElement(By.Id("Degree")).Clear();
-            driver.FindElement(By.Id("Degree")).SendKeys("good");
+            driver.FindElement(By.Name("Text")).Clear();
+            driver.FindElement(By.Name("Text")).SendKeys("Crazy going slowly am I six, five, four, three, two, one, switch!");
             driver.FindElement(By.CssSelector("input.btn.btn-default")).Click();
-            driver.FindElement(By.LinkText("Edit")).Click();
-            driver.FindElement(By.Id("About")).Clear();
-            driver.FindElement(By.Id("About")).SendKeys("asd");
-            driver.FindElement(By.Id("Degree")).Clear();
-            driver.FindElement(By.Id("Degree")).SendKeys("good2");
+            driver.FindElement(By.LinkText("Message Users")).Click();
+        }
+
+        [TestMethod]
+        public void TheConversationAddDeleteSeleniumTest()
+        {
+            driver.FindElement(By.LinkText("Message Users")).Click();
+            driver.FindElement(By.LinkText("START A NEW CONVERSATION")).Click();
             driver.FindElement(By.CssSelector("input.btn.btn-default")).Click();
-            driver.FindElement(By.XPath("(//a[contains(text(),'Details')])[1]")).Click();
-            driver.FindElement(By.LinkText("Back to List")).Click();
-            driver.FindElement(By.LinkText("Delete")).Click();
+            driver.FindElement(By.XPath("(//a[contains(text(),'Delete')])[6]")).Click();
             driver.FindElement(By.CssSelector("input.btn.btn-default")).Click();
         }
+
         private bool IsElementPresent(By by)
         {
             try
