@@ -108,6 +108,38 @@ namespace ConnectR.Repositories
             db.SaveChanges();
         }
 
+        public IEnumerable<ProfileModel> GetFollowers(int id)
+        {
+            List<ProfileModel> profiles = new List<ProfileModel>();
+            var result = from p in db.Profiles
+                         join f in db.Followers on p.ProfileId equals f.FollowerId
+                         where f.FollowingId == id
+                         select p;
+
+            foreach (var p in result)
+            {
+                profiles.Add(ConvertToModel(p));
+            }
+
+            return profiles;
+        }
+
+        public IEnumerable<ProfileModel> GetFollowing(int id)
+        {
+            List<ProfileModel> profiles = new List<ProfileModel>();
+            var result = from p in db.Profiles
+                         join f in db.Followers on p.ProfileId equals f.FollowingId
+                         where f.FollowerId == id
+                         select p;
+
+            foreach (var p in result)
+            {
+                profiles.Add(ConvertToModel(p));
+            }
+
+            return profiles;
+        }
+
         public ProfileModel GetProfileByUserId(string userId)
         {
             var query = from p in db.Profiles

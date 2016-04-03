@@ -372,6 +372,9 @@
     <Content Include="Views\Conversation\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Conversation.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Message.cshtml" />
+    <Content Include="Views\Shared\_Profiles.cshtml" />
+    <Content Include="Views\Profiles\Followers.cshtml" />
+    <Content Include="Views\Profiles\Following.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

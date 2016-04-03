@@ -88,6 +88,9 @@ namespace ConnectR.Controllers
                 return HttpNotFound();
             }
             ViewBag.UserId = User.Identity.GetUserId();
+
+            profile.NumFollowers = repo.GetFollowers((int)id).Count();
+            profile.NumFollowing = repo.GetFollowing((int)id).Count();
             return View(profile);
         }
 
@@ -272,7 +275,37 @@ namespace ConnectR.Controllers
             }
             
 
-            return RedirectToAction("Index");
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        public  async Task<ActionResult> Followers(int id)
+        {
+            int profileId = await GetCurrentProfileId();
+            ViewBag.ProfileId = profileId;
+
+            IEnumerable<ProfileModel> profiles = repo.GetFollowers(id);
+
+            foreach (ProfileModel p in profiles)
+            {
+                repo.CheckIfFollowing(profileId, p);
+            }
+
+            return View(profiles);
+        }
+
+        public async Task<ActionResult> Following(int id)
+        {
+            int profileId = await GetCurrentProfileId();
+            ViewBag.ProfileId = profileId;
+
+            IEnumerable<ProfileModel> profiles = repo.GetFollowing(id);
+
+            foreach (ProfileModel p in profiles)
+            {
+                repo.CheckIfFollowing(profileId, p);
+            }
+
+            return View(profiles);
         }
 
         public async Task<int> GetCurrentProfileId()

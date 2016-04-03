@@ -36,6 +36,8 @@ namespace ConnectR.Models
         [MaxLength]
         public string About { get; set; }
         public bool Followed { get; set; }
+        public int NumFollowers { get; set; }
+        public int NumFollowing { get; set; }
 
         public virtual ICollection<Conference> Conferences { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
