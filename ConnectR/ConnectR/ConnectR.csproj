@@ -217,6 +217,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -311,11 +312,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\ConnectR.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-
     <Content Include="Scripts\custom_scripts.js" />
-
     <Content Include="Scripts\custom.js" />
-
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -379,13 +377,10 @@
     <Content Include="Views\Conversation\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Conversation.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Message.cshtml" />
-
     <Content Include="Views\Shared\_Profiles.cshtml" />
     <Content Include="Views\Profiles\Followers.cshtml" />
     <Content Include="Views\Profiles\Following.cshtml" />
-
     <Content Include="Views\Search\Index.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
