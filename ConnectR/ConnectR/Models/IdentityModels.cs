@@ -38,6 +38,6 @@ namespace ConnectR.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<ConnectR.Models.SearchViewModel> SearchViewModels { get; set; }
+        
     }
 }
