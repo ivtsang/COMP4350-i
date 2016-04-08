@@ -11,9 +11,9 @@
     <hr />
     <dl class="dl-horizontal">
         <p style="float:right">
-            @Html.ActionLink("Followers", "Followers", new { id = Model.ProfileId}): @Model.NumFollowers
+            @Html.ActionLink("Followers", "Followers", "Follow", new { id = Model.ProfileId }, null): @Model.NumFollowers
             <br/>
-            @Html.ActionLink("Following", "Following", new { id = Model.ProfileId }): @Model.NumFollowing
+            @Html.ActionLink("Following", "Following", "Follow", new { id = Model.ProfileId }, null): @Model.NumFollowing
         </p>
         <dt>
             @Html.DisplayNameFor(model => model.UserImage)

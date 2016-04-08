@@ -213,6 +213,7 @@
     <Compile Include="Controllers\ConferenceController.cs" />
     <Compile Include="Controllers\ConversationController.cs" />
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Controllers\FollowController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -274,6 +275,7 @@
     <Compile Include="Repositories\SearchRepository.cs" />
     <Compile Include="ServiceControllers\ConferencesServiceController.cs" />
     <Compile Include="ServiceControllers\FilesServiceController.cs" />
+    <Compile Include="ServiceControllers\FollowServiceController.cs" />
     <Compile Include="ServiceControllers\ProfilesServiceController.cs" />
     <Compile Include="ServiceControllers\SearchServiceController.cs" />
     <Compile Include="Startup.cs" />
@@ -378,8 +380,8 @@
     <Content Include="Views\Shared\DisplayTemplates\Conversation.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Message.cshtml" />
     <Content Include="Views\Shared\_Profiles.cshtml" />
-    <Content Include="Views\Profiles\Followers.cshtml" />
-    <Content Include="Views\Profiles\Following.cshtml" />
+    <Content Include="Views\Follow\Followers.cshtml" />
+    <Content Include="Views\Follow\Following.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

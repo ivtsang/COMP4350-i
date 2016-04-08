@@ -11,12 +11,17 @@ namespace ConnectR.Repositories
     {
         private Entities db = new Entities();
 
-        public IEnumerable<ProfileModel> GetProfiles()
+        public IEnumerable<ProfileModel> GetProfiles(int id)
         {
             List<ProfileModel> profiles = new List<ProfileModel>();
             foreach (var p in db.Profiles)
             {
                 profiles.Add(ConvertToModel(p));
+            }
+
+            foreach (ProfileModel p in profiles)
+            {
+                CheckIfFollowing(id, p);
             }
             return profiles;
         }
@@ -24,7 +29,12 @@ namespace ConnectR.Repositories
         public ProfileModel GetProfileById(int id)
         {
             Profile p = db.Profiles.Include("Files").SingleOrDefault(e => e.ProfileId == id);
-            return ConvertToModel(p);
+            ProfileModel profileM = ConvertToModel(p);
+
+            profileM.NumFollowers = GetFollowers(id).Count();
+            profileM.NumFollowing = GetFollowing(id).Count();
+
+            return profileM;
         }
 
         public Profile SaveProfile(Profile profile)
@@ -111,6 +121,8 @@ namespace ConnectR.Repositories
         public IEnumerable<ProfileModel> GetFollowers(int id)
         {
             List<ProfileModel> profiles = new List<ProfileModel>();
+            ProfileModel profileM;
+
             var result = from p in db.Profiles
                          join f in db.Followers on p.ProfileId equals f.FollowerId
                          where f.FollowingId == id
@@ -118,8 +130,11 @@ namespace ConnectR.Repositories
 
             foreach (var p in result)
             {
-                profiles.Add(ConvertToModel(p));
+                profileM = ConvertToModel(p);
+                CheckIfFollowing(id, profileM);
+                profiles.Add(profileM);
             }
+
 
             return profiles;
         }
@@ -127,6 +142,8 @@ namespace ConnectR.Repositories
         public IEnumerable<ProfileModel> GetFollowing(int id)
         {
             List<ProfileModel> profiles = new List<ProfileModel>();
+            ProfileModel profileM;
+
             var result = from p in db.Profiles
                          join f in db.Followers on p.ProfileId equals f.FollowingId
                          where f.FollowerId == id
@@ -134,7 +151,9 @@ namespace ConnectR.Repositories
 
             foreach (var p in result)
             {
-                profiles.Add(ConvertToModel(p));
+                profileM = ConvertToModel(p);
+                CheckIfFollowing(id, profileM);
+                profiles.Add(profileM);
             }
 
             return profiles;

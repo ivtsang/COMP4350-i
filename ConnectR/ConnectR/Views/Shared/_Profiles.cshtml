@@ -59,11 +59,11 @@
                 {
                     if (!item.Followed)
                     {
-                        @Html.ActionLink("Follow", "Follow", new { followingId = item.ProfileId, follow = true });
+                        @Html.ActionLink("Follow", "Follow", "Follow", new { followingId = item.ProfileId, follow = true }, null);
                     }
                     else
                     {
-                        @Html.ActionLink("Unfollow", "Follow", new { followingId = item.ProfileId, follow = false });
+                        @Html.ActionLink("Unfollow", "Follow", "Follow", new { followingId = item.ProfileId, follow = false }, null);
                     }
                 }
 

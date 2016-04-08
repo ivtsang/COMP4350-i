@@ -18,6 +18,7 @@ using System.Web.Configuration;
 using ConnectR.Repositories;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web.Security;
+using Newtonsoft.Json.Linq;
 
 namespace ConnectR.Controllers
 {
@@ -44,8 +45,15 @@ namespace ConnectR.Controllers
         public async Task<ActionResult> Index()
         {
             //ViewBag.UserId = User.Identity.GetUserId();
+            string uri = baseUri;
             int profileId = await GetCurrentProfileId();
             ViewBag.ProfileId = profileId;
+
+            if(profileId != 0)
+            {
+                uri = uri + "/GetProfiles/" + profileId.ToString();
+            }
+
 
             List<ProfileModel> profiles;
 
@@ -53,13 +61,8 @@ namespace ConnectR.Controllers
             {
 
                 profiles = JsonConvert.DeserializeObject<List<ProfileModel>>(
-                    await httpClient.GetStringAsync(baseUri)
+                    await httpClient.GetStringAsync(uri)
                 );
-            }
-
-            foreach(ProfileModel p in profiles)
-            {
-                repo.CheckIfFollowing(profileId, p);
             }
 
             return View(profiles);
@@ -89,8 +92,6 @@ namespace ConnectR.Controllers
             }
             ViewBag.UserId = User.Identity.GetUserId();
 
-            profile.NumFollowers = repo.GetFollowers((int)id).Count();
-            profile.NumFollowing = repo.GetFollowing((int)id).Count();
             return View(profile);
         }
 
@@ -261,52 +262,8 @@ namespace ConnectR.Controllers
             }
         }
 
-        public async Task<ActionResult> Follow(int followingId, bool follow)
-        {
-            int followerId = await GetCurrentProfileId();
-
-            if (follow)
-            {
-                repo.FollowProfile(followerId, followingId);
-            }
-            else
-            {
-                repo.UnfollowProfile(followerId, followingId);
-            }
-            
-
-            return Redirect(Request.UrlReferrer.ToString());
-        }
-
-        public  async Task<ActionResult> Followers(int id)
-        {
-            int profileId = await GetCurrentProfileId();
-            ViewBag.ProfileId = profileId;
-
-            IEnumerable<ProfileModel> profiles = repo.GetFollowers(id);
-
-            foreach (ProfileModel p in profiles)
-            {
-                repo.CheckIfFollowing(profileId, p);
-            }
-
-            return View(profiles);
-        }
-
-        public async Task<ActionResult> Following(int id)
-        {
-            int profileId = await GetCurrentProfileId();
-            ViewBag.ProfileId = profileId;
-
-            IEnumerable<ProfileModel> profiles = repo.GetFollowing(id);
-
-            foreach (ProfileModel p in profiles)
-            {
-                repo.CheckIfFollowing(profileId, p);
-            }
-
-            return View(profiles);
-        }
+        
+        
 
         public async Task<int> GetCurrentProfileId()
         {
