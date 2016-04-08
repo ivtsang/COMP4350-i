@@ -25,7 +25,13 @@ namespace ConnectR
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            
+
+            config.Routes.MapHttpRoute(
+                name: "SearchApi",
+                routeTemplate: "api/{controller}/{action}/{keyword}/{category}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
         }
     }
 }

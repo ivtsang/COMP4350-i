@@ -165,7 +165,7 @@ namespace ConnectR.Tests.Controllers
         [TestMethod]
         public void getAll()
         {
-            Assert.IsTrue(repo.GetProfiles().Count() > 0);
+            Assert.IsTrue(repo.GetProfiles(0).Count() > 0);
         }
 
         [TestMethod]

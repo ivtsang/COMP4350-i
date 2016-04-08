@@ -1,0 +1,47 @@
+﻿@model ConnectR.Models.SearchViewModel
+
+@{
+    ViewBag.Title = "index";
+}
+    <h2>Search</h2>  
+
+    <div class="form-horizontal search-form">
+        <!-- Search input-->
+        <div class="form-group">
+            <div class="col-md-7">
+                <input id="keyword" name="textinput" type="text" placeholder="Search with any keyword" class="form-control input-md">
+            </div>
+            <div class="col-md-3">
+                <select id="selectCategory" name="selectCategory" class="form-control">
+                    <option value="all">All</option>
+                    <option value="profile">Profile</option>
+                    <option value="conference">Conference</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value="Submit" class="btn btn-default create-button" />
+            </div>
+        </div>  
+    </div>
+
+    <div class="profile-search-result hidden">
+        <h4 class="proflie-replace-keyword">Profiles</h4> 
+        <div class="row header">
+            <div class="col-sm-4">Name</div>
+            <div class="col-sm-4">Institution</div>
+            <div class="col-sm-4">Country</div>
+        </div>
+        
+        <div class="empty-profile-list hidden">No Profile found with that keyword.</div>
+    </div>
+    <div class="conference-search-result hidden">
+        <h4>Conferences</h4>
+        <div class="row header">
+            <div class="col-sm-4">Conference Title</div>
+            <div class="col-sm-4">Date</div>
+            <div class="col-sm-4">Location</div>
+        </div>
+        <div class="empty-conference-list hidden">No Conference found with that keyword.</div>
+    </div>
+
+

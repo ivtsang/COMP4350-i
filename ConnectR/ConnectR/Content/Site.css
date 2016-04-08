@@ -30,3 +30,26 @@ textarea {
 .ProfileImage {
     width: 200px;
 }
+
+#keyword {
+    max-width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.conference-search-result {
+    margin-top: 30px;
+}
+
+.row.header > .col-sm-4 {
+    background-color: grey;
+    color: white;
+}
+.row.student, .row.conference {
+    margin-top: 10px;
+}
+.empty-profile-list, .empty-conference-list {
+    color: red;
+}

@@ -18,12 +18,14 @@ using System.Web.Configuration;
 using ConnectR.Repositories;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web.Security;
+using Newtonsoft.Json.Linq;
 
 namespace ConnectR.Controllers
 {
     public class ProfilesController : Controller
     {
         private Entities db = new Entities();
+        private ProfileRepository repo = new ProfileRepository();
         private string baseUri = WebConfigurationManager.AppSettings["ServiceUrl"] + "ProfilesService";
 
         protected override void Initialize(RequestContext requestContext)
@@ -42,7 +44,16 @@ namespace ConnectR.Controllers
         // GET: Profiles
         public async Task<ActionResult> Index()
         {
-            ViewBag.UserId = User.Identity.GetUserId();
+            //ViewBag.UserId = User.Identity.GetUserId();
+            string uri = baseUri;
+            int profileId = await GetCurrentProfileId();
+            ViewBag.ProfileId = profileId;
+
+            if(profileId != 0)
+            {
+                uri = uri + "/GetProfiles/" + profileId.ToString();
+            }
+
 
             List<ProfileModel> profiles;
 
@@ -50,7 +61,7 @@ namespace ConnectR.Controllers
             {
 
                 profiles = JsonConvert.DeserializeObject<List<ProfileModel>>(
-                    await httpClient.GetStringAsync(baseUri)
+                    await httpClient.GetStringAsync(uri)
                 );
             }
 
@@ -80,6 +91,7 @@ namespace ConnectR.Controllers
                 return HttpNotFound();
             }
             ViewBag.UserId = User.Identity.GetUserId();
+
             return View(profile);
         }
 
@@ -249,6 +261,9 @@ namespace ConnectR.Controllers
                 }
             }
         }
+
+        
+        
 
         public async Task<int> GetCurrentProfileId()
         {

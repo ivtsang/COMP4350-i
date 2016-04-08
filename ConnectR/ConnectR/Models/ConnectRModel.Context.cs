@@ -18,7 +18,6 @@ namespace ConnectR.Models
         public Entities()
             : base("name=Entities")
         {
-            //Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -32,5 +31,6 @@ namespace ConnectR.Models
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
+        public virtual DbSet<Follower> Followers { get; set; }
     }
 }

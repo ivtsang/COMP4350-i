@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using ConnectR.Models;
 using ConnectR.Repositories;
+using Newtonsoft.Json.Linq;
 
 namespace ConnectR.ServiceControllers
 {
@@ -17,13 +18,20 @@ namespace ConnectR.ServiceControllers
         // GET: api/ProfilesService
         public IEnumerable<ProfileModel> GetProfiles()
         {
-            return repo.GetProfiles();
+            return repo.GetProfiles(0);
         }
 
         // GET: api/ProfilesService/5
         public ProfileModel GetProfile(int id)
         {
             return repo.GetProfileById(id);
+        }
+
+        // GET: api/ProfilesService/GetProfiles/profileId
+        [ActionName("GetProfiles")]
+        public IEnumerable<ProfileModel> GetProfiles(int id)
+        {
+            return repo.GetProfiles(id);
         }
 
         // GET: api/ProfilesService/GetProfileByUserId/userId

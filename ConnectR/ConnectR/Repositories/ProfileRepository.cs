@@ -11,12 +11,17 @@ namespace ConnectR.Repositories
     {
         private Entities db = new Entities();
 
-        public IEnumerable<ProfileModel> GetProfiles()
+        public IEnumerable<ProfileModel> GetProfiles(int id)
         {
             List<ProfileModel> profiles = new List<ProfileModel>();
             foreach (var p in db.Profiles)
             {
                 profiles.Add(ConvertToModel(p));
+            }
+
+            foreach (ProfileModel p in profiles)
+            {
+                CheckIfFollowing(id, p);
             }
             return profiles;
         }
@@ -24,7 +29,12 @@ namespace ConnectR.Repositories
         public ProfileModel GetProfileById(int id)
         {
             Profile p = db.Profiles.Include("Files").SingleOrDefault(e => e.ProfileId == id);
-            return ConvertToModel(p);
+            ProfileModel profileM = ConvertToModel(p);
+
+            profileM.NumFollowers = GetFollowers(id).Count();
+            profileM.NumFollowing = GetFollowing(id).Count();
+
+            return profileM;
         }
 
         public Profile SaveProfile(Profile profile)
@@ -68,6 +78,85 @@ namespace ConnectR.Repositories
             }
             db.Profiles.Remove(profile);
             db.SaveChanges();
+        }
+
+        public void CheckIfFollowing(int profileId, ProfileModel profile)
+        {
+            var result = (from f in db.Followers
+                          where f.FollowerId == profileId
+                          where f.FollowingId == profile.ProfileId
+                          select f).FirstOrDefault();
+
+            if(result != null)
+            {
+                profile.Followed = true;
+            }
+            else
+            {
+                profile.Followed = false;
+            }
+        }
+
+        public void UnfollowProfile(int followerId, int followingId)
+        {
+            var result = (from f in db.Followers
+                          where f.FollowerId == followerId
+                          where f.FollowingId == followingId
+                          select f).FirstOrDefault();
+            if(result != null)
+            {
+                db.Followers.Remove(result);
+                db.SaveChanges();
+            }
+            
+        }
+
+        public void FollowProfile(int followerId, int followingId)
+        {
+            Follower follower = new Follower { FollowerId = followerId, FollowingId = followingId };
+            db.Followers.Add(follower);
+            db.SaveChanges();
+        }
+
+        public IEnumerable<ProfileModel> GetFollowers(int id)
+        {
+            List<ProfileModel> profiles = new List<ProfileModel>();
+            ProfileModel profileM;
+
+            var result = from p in db.Profiles
+                         join f in db.Followers on p.ProfileId equals f.FollowerId
+                         where f.FollowingId == id
+                         select p;
+
+            foreach (var p in result)
+            {
+                profileM = ConvertToModel(p);
+                CheckIfFollowing(id, profileM);
+                profiles.Add(profileM);
+            }
+
+
+            return profiles;
+        }
+
+        public IEnumerable<ProfileModel> GetFollowing(int id)
+        {
+            List<ProfileModel> profiles = new List<ProfileModel>();
+            ProfileModel profileM;
+
+            var result = from p in db.Profiles
+                         join f in db.Followers on p.ProfileId equals f.FollowingId
+                         where f.FollowerId == id
+                         select p;
+
+            foreach (var p in result)
+            {
+                profileM = ConvertToModel(p);
+                CheckIfFollowing(id, profileM);
+                profiles.Add(profileM);
+            }
+
+            return profiles;
         }
 
         public ProfileModel GetProfileByUserId(string userId)
